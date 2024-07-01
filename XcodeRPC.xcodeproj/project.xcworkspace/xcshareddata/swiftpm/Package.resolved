@@ -1,0 +1,24 @@
+{
+  "originHash" : "4a6ec99eca2bb9dacffecb536ce748742bcd91960af7da94ab400a2a541db2d9",
+  "pins" : [
+    {
+      "identity" : "bluesocket",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Kitura/BlueSocket.git",
+      "state" : {
+        "revision" : "7b23a867008e0027bfd6f4d398d44720707bc8ca",
+        "version" : "2.0.4"
+      }
+    },
+    {
+      "identity" : "swordrpc",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/PKBeam/SwordRPC.git",
+      "state" : {
+        "branch" : "master",
+        "revision" : "978393ef02aa15841db5e4ffd410539d1307a4fb"
+      }
+    }
+  ],
+  "version" : 3
+}

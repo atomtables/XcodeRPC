@@ -7,19 +7,34 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		33D520A72C3059C30034C89E /* XCodeRPCApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D520A62C3059C30034C89E /* XCodeRPCApp.swift */; };
+		332452F62C3061E8001B386F /* SwordRPC in Frameworks */ = {isa = PBXBuildFile; productRef = 332452F52C3061E8001B386F /* SwordRPC */; };
+		332452FC2C306D3B001B386F /* SwordRPC in Frameworks */ = {isa = PBXBuildFile; productRef = 332452FB2C306D3B001B386F /* SwordRPC */; };
+		332452FE2C307240001B386F /* Secrets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 332452FD2C30723D001B386F /* Secrets.swift */; };
+		332453002C30747C001B386F /* Structures.swift in Sources */ = {isa = PBXBuildFile; fileRef = 332452FF2C30747A001B386F /* Structures.swift */; };
+		332453042C30C334001B386F /* Data+MultipartRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 332453032C30C315001B386F /* Data+MultipartRequest.swift */; };
+		335F2D632C31A45000439F3E /* InterViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 335F2D622C31A44500439F3E /* InterViewState.swift */; };
+		335F2D652C31A4CF00439F3E /* AppleScripts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 335F2D642C31A4CC00439F3E /* AppleScripts.swift */; };
+		335F2D702C3231CF00439F3E /* Functions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 335F2D6F2C3231CD00439F3E /* Functions.swift */; };
+		33D520A72C3059C30034C89E /* XcodeRPCApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D520A62C3059C30034C89E /* XcodeRPCApp.swift */; };
 		33D520A92C3059C30034C89E /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D520A82C3059C30034C89E /* ContentView.swift */; };
 		33D520AB2C3059C60034C89E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 33D520AA2C3059C60034C89E /* Assets.xcassets */; };
 		33D520AE2C3059C60034C89E /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 33D520AD2C3059C60034C89E /* Preview Assets.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		33D520A32C3059C30034C89E /* XCodeRPC.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = XCodeRPC.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		33D520A62C3059C30034C89E /* XCodeRPCApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XCodeRPCApp.swift; sourceTree = "<group>"; };
+		332452FD2C30723D001B386F /* Secrets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Secrets.swift; sourceTree = "<group>"; };
+		332452FF2C30747A001B386F /* Structures.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Structures.swift; sourceTree = "<group>"; };
+		332453032C30C315001B386F /* Data+MultipartRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+MultipartRequest.swift"; sourceTree = "<group>"; };
+		335F2D622C31A44500439F3E /* InterViewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterViewState.swift; sourceTree = "<group>"; };
+		335F2D642C31A4CC00439F3E /* AppleScripts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleScripts.swift; sourceTree = "<group>"; };
+		335F2D6F2C3231CD00439F3E /* Functions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Functions.swift; sourceTree = "<group>"; };
+		33D520A32C3059C30034C89E /* XcodeRPC.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = XcodeRPC.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		33D520A62C3059C30034C89E /* XcodeRPCApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XcodeRPCApp.swift; sourceTree = "<group>"; };
 		33D520A82C3059C30034C89E /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		33D520AA2C3059C60034C89E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		33D520AD2C3059C60034C89E /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		33D520AF2C3059C60034C89E /* XCodeRPC.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = XCodeRPC.entitlements; sourceTree = "<group>"; };
+		33D520AF2C3059C60034C89E /* XcodeRPC.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = XcodeRPC.entitlements; sourceTree = "<group>"; };
+		33D520B52C305AA20034C89E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -27,6 +42,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				332452FC2C306D3B001B386F /* SwordRPC in Frameworks */,
+				332452F62C3061E8001B386F /* SwordRPC in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -36,7 +53,7 @@
 		33D5209A2C3059C30034C89E = {
 			isa = PBXGroup;
 			children = (
-				33D520A52C3059C30034C89E /* XCodeRPC */,
+				33D520A52C3059C30034C89E /* XcodeRPC */,
 				33D520A42C3059C30034C89E /* Products */,
 			);
 			sourceTree = "<group>";
@@ -44,21 +61,28 @@
 		33D520A42C3059C30034C89E /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				33D520A32C3059C30034C89E /* XCodeRPC.app */,
+				33D520A32C3059C30034C89E /* XcodeRPC.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		33D520A52C3059C30034C89E /* XCodeRPC */ = {
+		33D520A52C3059C30034C89E /* XcodeRPC */ = {
 			isa = PBXGroup;
 			children = (
-				33D520A62C3059C30034C89E /* XCodeRPCApp.swift */,
+				33D520A62C3059C30034C89E /* XcodeRPCApp.swift */,
 				33D520A82C3059C30034C89E /* ContentView.swift */,
+				335F2D6F2C3231CD00439F3E /* Functions.swift */,
+				335F2D642C31A4CC00439F3E /* AppleScripts.swift */,
+				335F2D622C31A44500439F3E /* InterViewState.swift */,
+				332453032C30C315001B386F /* Data+MultipartRequest.swift */,
+				332452FF2C30747A001B386F /* Structures.swift */,
+				332452FD2C30723D001B386F /* Secrets.swift */,
+				33D520B52C305AA20034C89E /* Info.plist */,
 				33D520AA2C3059C60034C89E /* Assets.xcassets */,
-				33D520AF2C3059C60034C89E /* XCodeRPC.entitlements */,
+				33D520AF2C3059C60034C89E /* XcodeRPC.entitlements */,
 				33D520AC2C3059C60034C89E /* Preview Content */,
 			);
-			path = XCodeRPC;
+			path = XcodeRPC;
 			sourceTree = "<group>";
 		};
 		33D520AC2C3059C60034C89E /* Preview Content */ = {
@@ -72,9 +96,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		33D520A22C3059C30034C89E /* XCodeRPC */ = {
+		33D520A22C3059C30034C89E /* XcodeRPC */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 33D520B22C3059C60034C89E /* Build configuration list for PBXNativeTarget "XCodeRPC" */;
+			buildConfigurationList = 33D520B22C3059C60034C89E /* Build configuration list for PBXNativeTarget "XcodeRPC" */;
 			buildPhases = (
 				33D5209F2C3059C30034C89E /* Sources */,
 				33D520A02C3059C30034C89E /* Frameworks */,
@@ -84,9 +108,13 @@
 			);
 			dependencies = (
 			);
-			name = XCodeRPC;
+			name = XcodeRPC;
+			packageProductDependencies = (
+				332452F52C3061E8001B386F /* SwordRPC */,
+				332452FB2C306D3B001B386F /* SwordRPC */,
+			);
 			productName = XCodeRPC;
-			productReference = 33D520A32C3059C30034C89E /* XCodeRPC.app */;
+			productReference = 33D520A32C3059C30034C89E /* XcodeRPC.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -104,7 +132,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 33D5209E2C3059C30034C89E /* Build configuration list for PBXProject "XCodeRPC" */;
+			buildConfigurationList = 33D5209E2C3059C30034C89E /* Build configuration list for PBXProject "XcodeRPC" */;
 			compatibilityVersion = "Xcode 15.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -113,11 +141,14 @@
 				Base,
 			);
 			mainGroup = 33D5209A2C3059C30034C89E;
+			packageReferences = (
+				332452FA2C306D3B001B386F /* XCRemoteSwiftPackageReference "SwordRPC" */,
+			);
 			productRefGroup = 33D520A42C3059C30034C89E /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				33D520A22C3059C30034C89E /* XCodeRPC */,
+				33D520A22C3059C30034C89E /* XcodeRPC */,
 			);
 		};
 /* End PBXProject section */
@@ -139,8 +170,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				332453042C30C334001B386F /* Data+MultipartRequest.swift in Sources */,
+				335F2D632C31A45000439F3E /* InterViewState.swift in Sources */,
 				33D520A92C3059C30034C89E /* ContentView.swift in Sources */,
-				33D520A72C3059C30034C89E /* XCodeRPCApp.swift in Sources */,
+				335F2D702C3231CF00439F3E /* Functions.swift in Sources */,
+				332453002C30747C001B386F /* Structures.swift in Sources */,
+				335F2D652C31A4CF00439F3E /* AppleScripts.swift in Sources */,
+				332452FE2C307240001B386F /* Secrets.swift in Sources */,
+				33D520A72C3059C30034C89E /* XcodeRPCApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -279,13 +316,17 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = XCodeRPC/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = XcodeRPC;
+				INFOPLIST_KEY_LSUIElement = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = dev.atomtables.XCodeRPC;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.atomtables.XcodeRPC;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -306,13 +347,17 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = XCodeRPC/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = XcodeRPC;
+				INFOPLIST_KEY_LSUIElement = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = dev.atomtables.XCodeRPC;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.atomtables.XcodeRPC;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -322,7 +367,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		33D5209E2C3059C30034C89E /* Build configuration list for PBXProject "XCodeRPC" */ = {
+		33D5209E2C3059C30034C89E /* Build configuration list for PBXProject "XcodeRPC" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				33D520B02C3059C60034C89E /* Debug */,
@@ -331,7 +376,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		33D520B22C3059C60034C89E /* Build configuration list for PBXNativeTarget "XCodeRPC" */ = {
+		33D520B22C3059C60034C89E /* Build configuration list for PBXNativeTarget "XcodeRPC" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				33D520B32C3059C60034C89E /* Debug */,
@@ -341,6 +386,29 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		332452FA2C306D3B001B386F /* XCRemoteSwiftPackageReference "SwordRPC" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/PKBeam/SwordRPC.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		332452F52C3061E8001B386F /* SwordRPC */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = SwordRPC;
+		};
+		332452FB2C306D3B001B386F /* SwordRPC */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 332452FA2C306D3B001B386F /* XCRemoteSwiftPackageReference "SwordRPC" */;
+			productName = SwordRPC;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 33D5209B2C3059C30034C89E /* Project object */;
 }
