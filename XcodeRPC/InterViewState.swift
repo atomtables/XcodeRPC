@@ -82,11 +82,12 @@ func RunRPCUpdate() {
                 RunRPCUpdate()
             }
         }
-        DispatchQueue.main.asyncAfter(deadline: .now()+1, execute: concurrentExecution)
+        DispatchQueue.main.asyncAfter(deadline: .now()+0.25, execute: concurrentExecution)
 
         let workspace = RunAppleScript(script: getWorkspaceScript)
         let target = RunAppleScript(script: getTargetScript)
         let currentFile = RunAppleScript(script: getFileScript)
+        let sources = RunAppleScript(script: getSourcesScript)
 
         guard workspace != oldWorkspace || target != oldTarget || currentFile != oldCurrentFile else {
             return
@@ -94,6 +95,11 @@ func RunRPCUpdate() {
         oldWorkspace = workspace
         oldTarget = target
         oldCurrentFile = currentFile
+
+        if workspace == nil && target == nil && currentFile == nil {
+            presence.state = "Idling..."
+            rpc.setPresence(presence)
+        }
 
         if URL(fileURLWithPath: "file:///\(currentFile ?? "")").pathExtension == "playground"
             && target == nil {
@@ -112,9 +118,34 @@ func RunRPCUpdate() {
             presence.details = currentFile
 
             presence.assets.largeImage = "xcode"
-            let smallImage = GetFileExtension(file: URL(fileURLWithPath: "file:///\(currentFile ?? "")"))
-            presence.assets.smallImage = smallImage
-            presence.assets.smallText = "Editing a `\(URL(fileURLWithPath: "file:///\(currentFile ?? "")").pathExtension)` file"
+            if let currentFile {
+                let smallImage = GetFileExtension(file: URL(fileURLWithPath: "file:///\(currentFile)"))
+                presence.assets.smallImage = smallImage
+                presence.assets.smallText = "Editing a `\(URL(fileURLWithPath: "file:///\(currentFile)").pathExtension)` file"
+            }
+
+            rpc.setPresence(presence)
+            return
+        }
+
+        if sources == nil {
+            presence.state = target
+
+            let workspaceURL = URL(fileURLWithPath: workspace)
+            let image = await UploadIcon(path: FindIcon(workspace: workspaceURL), workspace: workspaceURL)
+            presence.assets.largeImage = image
+
+            rpc.setPresence(presence)
+            return
+        }
+
+        if URL(fileURLWithPath: "file:///\(currentFile ?? "")").pathExtension == "" {
+
+            presence.state = target
+
+            let workspaceURL = URL(fileURLWithPath: workspace)
+            let image = await UploadIcon(path: FindIcon(workspace: workspaceURL), workspace: workspaceURL)
+            presence.assets.largeImage = image
 
             rpc.setPresence(presence)
             return
@@ -127,9 +158,11 @@ func RunRPCUpdate() {
         let image = await UploadIcon(path: FindIcon(workspace: workspaceURL), workspace: workspaceURL)
         presence.assets.largeImage = image
 
-        let smallImage = GetFileExtension(file: URL(fileURLWithPath: "file:///\(currentFile ?? "")"))
-        presence.assets.smallImage = smallImage
-        presence.assets.smallText = "Editing a `\(URL(fileURLWithPath: "file:///\(currentFile ?? "")").pathExtension)` file"
+        if let currentFile {
+            let smallImage = GetFileExtension(file: URL(fileURLWithPath: "file:///\(currentFile)"))
+            presence.assets.smallImage = smallImage
+            presence.assets.smallText = "Editing a `\(URL(fileURLWithPath: "file:///\(currentFile)").pathExtension)` file"
+        }
 
         rpc.setPresence(presence)
 

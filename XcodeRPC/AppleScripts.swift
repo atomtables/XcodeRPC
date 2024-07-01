@@ -31,3 +31,24 @@ tell application "Xcode-beta"
     end if
 end tell
 """
+
+let getSourcesScript = """
+tell application "Xcode-beta"
+    set openDocs to {}
+    repeat with doc in source documents
+        try
+            set docName to name of doc
+            if docName is not missing value then
+                copy docName to end of openDocs
+            end if
+        on error
+            -- Handle errors, e.g., when a document has no name
+        end try
+    end repeat
+    try
+        return first item of openDocs
+    on error
+
+    end try
+end tell
+"""

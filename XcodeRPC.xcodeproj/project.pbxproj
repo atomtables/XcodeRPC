@@ -28,6 +28,7 @@
 		335F2D622C31A44500439F3E /* InterViewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterViewState.swift; sourceTree = "<group>"; };
 		335F2D642C31A4CC00439F3E /* AppleScripts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleScripts.swift; sourceTree = "<group>"; };
 		335F2D6F2C3231CD00439F3E /* Functions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Functions.swift; sourceTree = "<group>"; };
+		337BC4182C3312CF0098DDB5 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		33D520A32C3059C30034C89E /* XcodeRPC.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = XcodeRPC.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		33D520A62C3059C30034C89E /* XcodeRPCApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XcodeRPCApp.swift; sourceTree = "<group>"; };
 		33D520A82C3059C30034C89E /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -53,6 +54,7 @@
 		33D5209A2C3059C30034C89E = {
 			isa = PBXGroup;
 			children = (
+				337BC4182C3312CF0098DDB5 /* README.md */,
 				33D520A52C3059C30034C89E /* XcodeRPC */,
 				33D520A42C3059C30034C89E /* Products */,
 			);
