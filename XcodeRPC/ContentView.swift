@@ -42,9 +42,40 @@ struct ContentView: View {
                 info.workspace = nil
                 info.target = nil
                 info.currentFile = nil
+                oldWorkspace = nil
+                oldTarget = nil
+                oldCurrentFile = nil
+                rpc = SwordRPC(appId: "1257064229203214426")
+                presence.timestamps.start = .now
+                RPCEventHandlers()
             }
             .alert(isPresented: $showAlert) {
                 Alert(title: Text("Failed to connect. Check if Discord is open, or check the console for info."))
+            }
+        }
+        Button("Invalidate Icon Cache") {
+            let alert = NSAlert()
+            alert.messageText = "Invalidate Icon Cache"
+            alert.informativeText = "All icons will be removed for all applications. This action is irreversible. Are you sure?"
+            alert.alertStyle = .warning
+
+            // Add buttons
+            alert.addButton(withTitle: "Yes")
+            alert.addButton(withTitle: "No")
+
+            // Show the alert
+            let response = alert.runModal()
+
+            // Handle the response
+            switch response {
+            case .alertFirstButtonReturn:
+                let domain = Bundle.main.bundleIdentifier!
+                UserDefaults.standard.removePersistentDomain(forName: domain)
+                UserDefaults.standard.synchronize()
+            case .alertSecondButtonReturn:
+                break
+            default:
+                break
             }
         }
         Divider()

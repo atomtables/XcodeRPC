@@ -7,7 +7,7 @@
 import Foundation
 import SwordRPC
 
-let rpc = SwordRPC(appId: "1257064229203214426")
+var rpc = SwordRPC(appId: "1257064229203214426")
 var concurrentExecution: DispatchWorkItem!
 
 final class Properties: ObservableObject {
@@ -55,6 +55,7 @@ var presence = RichPresence(start: Date())
 func RPCEventHandlers() {
     rpc.onConnect { rpc in
         DispatchQueue.main.async {
+            NSLog("Connected")
             Properties.shared.connected = true
             Properties.shared.connecting = false
             RunRPCUpdate()
@@ -63,7 +64,10 @@ func RPCEventHandlers() {
 
     rpc.onDisconnect { rpc, code, msg in
         concurrentExecution.cancel()
-        Properties.shared.connected = false
+        DispatchQueue.main.async {
+            NSLog("Disconnected")
+            Properties.shared.connected = false
+        }
     }
 
     rpc.onError { rpc, code, msg in
@@ -72,59 +76,67 @@ func RPCEventHandlers() {
 }
 
 func RunRPCUpdate() {
-    concurrentExecution = DispatchWorkItem {
-        if Properties.shared.connected {
-            RunRPCUpdate()
+    Task {
+        concurrentExecution = DispatchWorkItem {
+            if Properties.shared.connected {
+                RunRPCUpdate()
+            }
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now()+1, execute: concurrentExecution)
+
+        let workspace = RunAppleScript(script: getWorkspaceScript)
+        let target = RunAppleScript(script: getTargetScript)
+        let currentFile = RunAppleScript(script: getFileScript)
+
+        guard workspace != oldWorkspace || target != oldTarget || currentFile != oldCurrentFile else {
+            return
+        }
+        oldWorkspace = workspace
+        oldTarget = target
+        oldCurrentFile = currentFile
+
+        if URL(fileURLWithPath: "file:///\(currentFile ?? "")").pathExtension == "playground"
+            && target == nil {
+
+            presence.state = target
+            presence.details = currentFile
+            presence.assets.largeImage = "xcode"
+            presence.assets.smallImage = "playground"
+
+            rpc.setPresence(presence)
+            return
+        }
+
+        guard let workspace else {
+            presence.state = target
+            presence.details = currentFile
+
+            presence.assets.largeImage = "xcode"
+            let smallImage = GetFileExtension(file: URL(fileURLWithPath: "file:///\(currentFile ?? "")"))
+            presence.assets.smallImage = smallImage
+            presence.assets.smallText = "Editing a `\(URL(fileURLWithPath: "file:///\(currentFile ?? "")").pathExtension)` file"
+
+            rpc.setPresence(presence)
+            return
+        }
+
+        presence.state = target
+        presence.details = currentFile
+
+        let workspaceURL = URL(fileURLWithPath: workspace)
+        let image = await UploadIcon(path: FindIcon(workspace: workspaceURL), workspace: workspaceURL)
+        presence.assets.largeImage = image
+
+        let smallImage = GetFileExtension(file: URL(fileURLWithPath: "file:///\(currentFile ?? "")"))
+        presence.assets.smallImage = smallImage
+        presence.assets.smallText = "Editing a `\(URL(fileURLWithPath: "file:///\(currentFile ?? "")").pathExtension)` file"
+
+        rpc.setPresence(presence)
+
+        DispatchQueue.main.async {
+            Properties.shared.workspace = workspace
+            Properties.shared.target = target
+            Properties.shared.currentFile = currentFile
         }
     }
-    DispatchQueue.main.asyncAfter(deadline: .now()+1, execute: concurrentExecution)
-
-    Properties.shared.workspace = RunAppleScript(script: getWorkspaceScript)
-    Properties.shared.target = RunAppleScript(script: getTargetScript)
-    Properties.shared.currentFile = RunAppleScript(script: getFileScript)
-
-    guard Properties.shared.workspace != oldWorkspace || Properties.shared.target != oldTarget || Properties.shared.currentFile != oldCurrentFile else {
-        return
-    }
-    oldWorkspace = Properties.shared.workspace
-    oldTarget = Properties.shared.target
-    oldCurrentFile = Properties.shared.currentFile
-
-    if URL(fileURLWithPath: "file:///\(Properties.shared.currentFile ?? "")").pathExtension == "playground" 
-        && Properties.shared.target == nil {
-
-        presence.state = Properties.shared.target
-        presence.details = Properties.shared.currentFile
-        presence.assets.largeImage = "xcode"
-        presence.assets.smallImage = "playground"
-
-        rpc.setPresence(presence)
-        return
-    }
-
-    guard let workspace = Properties.shared.workspace else {
-        presence.state = Properties.shared.target
-        presence.details = Properties.shared.currentFile
-
-        presence.assets.largeImage = "xcode"
-        let smallImage = GetFileExtension(file: URL(fileURLWithPath: "file:///\(Properties.shared.currentFile ?? "")"))
-        presence.assets.smallImage = smallImage
-        presence.assets.smallText = "Editing a `\(URL(fileURLWithPath: "file:///\(Properties.shared.currentFile ?? "")").pathExtension)` file"
-
-        rpc.setPresence(presence)
-        return
-    }
-
-    presence.state = Properties.shared.target
-    presence.details = Properties.shared.currentFile
-
-    let workspaceURL = URL(fileURLWithPath: workspace)
-    let image = UploadIcon(path: FindIcon(workspace: workspaceURL), workspace: workspaceURL)
-    presence.assets.largeImage = image
- 
-    let smallImage = GetFileExtension(file: URL(fileURLWithPath: "file:///\(Properties.shared.currentFile ?? "")"))
-    presence.assets.smallImage = smallImage
-    presence.assets.smallText = "Editing a `\(URL(fileURLWithPath: "file:///\(Properties.shared.currentFile ?? "")").pathExtension)` file"
-
-    rpc.setPresence(presence)
 }

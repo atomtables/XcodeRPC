@@ -51,7 +51,7 @@ func FindIcon(workspace: URL) -> URL? {
     }
 }
 
-func UploadIcon(path: URL?, workspace: URL) -> String {
+func UploadIcon(path: URL?, workspace: URL) async -> String {
     if let x = UserDefaults.standard.object(forKey: workspace.absoluteString) as? String {
         var y = true
         checkWebsite(urlString: x) { exists in
@@ -92,7 +92,7 @@ func UploadIcon(path: URL?, workspace: URL) -> String {
         request.httpBody = multipart.httpBody
 
         /// Fire the request using URL sesson or anything else...
-        let (data, _) = try GetDataResponse(for: request)
+        let (data, _) = try await URLSession.shared.data(for: request)
         let d = try JSONDecoder().decode(ImgurUploadResponse.self, from: data)
         if d.success {
             if let link = d.data?.link {
@@ -100,6 +100,7 @@ func UploadIcon(path: URL?, workspace: URL) -> String {
                     link,
                     forKey: workspace.absoluteString
                 )
+                UserDefaults.standard.synchronize()
                 return link
             }
             return "default_app_icon"
@@ -107,6 +108,7 @@ func UploadIcon(path: URL?, workspace: URL) -> String {
             return "default_app_icon"
         }
     } catch {
+        NSLog("There was an error: \(error).")
         return "default_app_icon"
     }
 }
@@ -196,6 +198,18 @@ func checkWebsite(urlString: String, completion: @escaping (Bool) -> Void) {
         return
     }
 
+    let lastDoub = UserDefaults.standard.object(forKey: urlString) as? Double
+
+    if let lastDoub {
+        let lastCheck = Date(timeIntervalSince1970: lastDoub)
+
+        let components = Calendar.current.dateComponents([.day], from: lastCheck, to: Date())
+
+        if let days = components.day, days >= 1 {
+            completion(true)
+        }
+    }
+
     // Create a URL session data task
     let task = URLSession.shared.dataTask(with: url) { _, response, error in
         if let error = error {
@@ -207,7 +221,9 @@ func checkWebsite(urlString: String, completion: @escaping (Bool) -> Void) {
         if let httpResponse = response as? HTTPURLResponse {
             // Check for a successful HTTP status code (200–299)
             if (200...299).contains(httpResponse.statusCode) {
-                completion((200...299).contains(httpResponse.statusCode))
+                UserDefaults.standard.setValue(Date().timeIntervalSince1970, forKey: urlString)
+                UserDefaults.standard.synchronize()
+                completion(true)
             } else {
                 completion(false)
             }
