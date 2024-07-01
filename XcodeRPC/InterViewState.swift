@@ -8,7 +8,7 @@ import Foundation
 import SwordRPC
 
 var rpc = SwordRPC(appId: "1257064229203214426")
-var concurrentExecution: DispatchWorkItem!
+var concurrentExecution: Timer!
 
 final class Properties: ObservableObject {
     static var shared: Properties = Properties()
@@ -58,12 +58,16 @@ func RPCEventHandlers() {
             NSLog("Connected")
             Properties.shared.connected = true
             Properties.shared.connecting = false
-            RunRPCUpdate()
+            concurrentExecution = Timer.scheduledTimer(withTimeInterval: 0.25, repeats: true) { _ in
+                if Properties.shared.connected {
+                    RunRPCUpdate()
+                }
+            }
         }
     }
 
     rpc.onDisconnect { rpc, code, msg in
-        concurrentExecution.cancel()
+        concurrentExecution.invalidate()
         DispatchQueue.main.async {
             NSLog("Disconnected")
             Properties.shared.connected = false
@@ -75,15 +79,11 @@ func RPCEventHandlers() {
     }
 }
 
+
+
 func RunRPCUpdate() {
     Task {
-        concurrentExecution = DispatchWorkItem {
-            if Properties.shared.connected {
-                RunRPCUpdate()
-            }
-        }
-        DispatchQueue.main.asyncAfter(deadline: .now()+0.25, execute: concurrentExecution)
-
+        
         let workspace = RunAppleScript(script: getWorkspaceScript)
         let target = RunAppleScript(script: getTargetScript)
         let currentFile = RunAppleScript(script: getFileScript)
@@ -97,6 +97,8 @@ func RunRPCUpdate() {
         oldCurrentFile = currentFile
 
         if workspace == nil && target == nil && currentFile == nil {
+            presence.assets.largeImage = "xcode"
+            presence.assets.largeText = "Xcode"
             presence.state = "Idling..."
             rpc.setPresence(presence)
         }
@@ -107,7 +109,9 @@ func RunRPCUpdate() {
             presence.state = target
             presence.details = currentFile
             presence.assets.largeImage = "xcode"
+            presence.assets.largeText = "Xcode"
             presence.assets.smallImage = "playground"
+            presence.assets.smallText = "In a playground..."
 
             rpc.setPresence(presence)
             return
@@ -118,6 +122,7 @@ func RunRPCUpdate() {
             presence.details = currentFile
 
             presence.assets.largeImage = "xcode"
+            presence.assets.largeText = "Xcode"
             if let currentFile {
                 let smallImage = GetFileExtension(file: URL(fileURLWithPath: "file:///\(currentFile)"))
                 presence.assets.smallImage = smallImage
@@ -128,24 +133,13 @@ func RunRPCUpdate() {
             return
         }
 
-        if sources == nil {
+        if sources == nil || URL(fileURLWithPath: "file:///\(currentFile ?? "")").pathExtension == ""  {
             presence.state = target
 
             let workspaceURL = URL(fileURLWithPath: workspace)
             let image = await UploadIcon(path: FindIcon(workspace: workspaceURL), workspace: workspaceURL)
             presence.assets.largeImage = image
-
-            rpc.setPresence(presence)
-            return
-        }
-
-        if URL(fileURLWithPath: "file:///\(currentFile ?? "")").pathExtension == "" {
-
-            presence.state = target
-
-            let workspaceURL = URL(fileURLWithPath: workspace)
-            let image = await UploadIcon(path: FindIcon(workspace: workspaceURL), workspace: workspaceURL)
-            presence.assets.largeImage = image
+            presence.assets.largeText = target
 
             rpc.setPresence(presence)
             return
@@ -157,6 +151,7 @@ func RunRPCUpdate() {
         let workspaceURL = URL(fileURLWithPath: workspace)
         let image = await UploadIcon(path: FindIcon(workspace: workspaceURL), workspace: workspaceURL)
         presence.assets.largeImage = image
+        presence.assets.largeText = target
 
         if let currentFile {
             let smallImage = GetFileExtension(file: URL(fileURLWithPath: "file:///\(currentFile)"))
