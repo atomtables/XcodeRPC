@@ -7,4 +7,4 @@
 
 // for imgur: make an app and use client_id to show others the icon of your app
 #error("Add a CLIENT_ID, or remove this line.")
-let CLIENT_ID = ""
+let CLIENTID = ""
