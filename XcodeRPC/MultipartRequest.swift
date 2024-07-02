@@ -1,24 +1,10 @@
 //
-//  Data+MultipartRequest.swift
+//  Implementations.swift
 //  XcodeRPC
 //
-//  Created by Adithiya Venkatakrishnan on 29/06/2024.
+//  Created by Adithiya Venkatakrishnan on 01/07/2024.
 //
-
 import Foundation
-
-public extension Data {
-
-    mutating func append(
-        _ string: String,
-        encoding: String.Encoding = .utf8
-    ) {
-        guard let data = string.data(using: encoding) else {
-            return
-        }
-        append(data)
-    }
-}
 
 public struct MultipartRequest {
 
@@ -77,4 +63,3 @@ public struct MultipartRequest {
         return bodyData
     }
 }
-

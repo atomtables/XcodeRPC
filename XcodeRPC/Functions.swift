@@ -6,7 +6,7 @@
 //
 import Foundation
 
-func FindIcon(workspace: URL) -> URL? {
+func findIcon(workspace: URL) -> URL? {
     var name = workspace.lastPathComponent
     name = String(name.prefix(name.count - 10))
     var workspace = workspace.deletingLastPathComponent()
@@ -51,18 +51,16 @@ func FindIcon(workspace: URL) -> URL? {
     }
 }
 
-func UploadIcon(path: URL?, workspace: URL) async -> String {
-    if let x = UserDefaults.standard.object(forKey: workspace.absoluteString) as? String {
-        var y = true
-        checkWebsite(urlString: x) { exists in
+func uploadIcon(path: URL?, workspace: URL) async -> String {
+    if let url = UserDefaults.standard.object(forKey: workspace.absoluteString) as? String {
+        var valid = true
+        checkWebsite(urlString: url) { exists in
             if !exists {
                 NSLog("Website does not exist.")
-                y = false
+                valid = false
             }
         }
-        if y {
-            return x
-        }
+        if valid {return url}
     }
 
     guard let path else {
@@ -74,10 +72,8 @@ func UploadIcon(path: URL?, workspace: URL) async -> String {
         let file = try Data(contentsOf: path)
 
         multipart.add(
-            key: "image",
-            fileName: path.lastPathComponent,
-            fileMimeType: "image/png",
-            fileData: file
+            key: "image", fileName: path.lastPathComponent,
+            fileMimeType: "image/png", fileData: file
         )
         multipart.add(key: "type", value: "image")
         multipart.add(key: "title", value: path.lastPathComponent)
@@ -88,19 +84,17 @@ func UploadIcon(path: URL?, workspace: URL) async -> String {
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.setValue(multipart.httpContentTypeHeadeValue, forHTTPHeaderField: "Content-Type")
-        request.setValue("Client-ID \(CLIENT_ID)", forHTTPHeaderField: "Authorization")
+        request.setValue("Client-ID \(CLIENTID)", forHTTPHeaderField: "Authorization")
         request.httpBody = multipart.httpBody
 
         /// Fire the request using URL sesson or anything else...
         let (data, _) = try await URLSession.shared.data(for: request)
-        let d = try JSONDecoder().decode(ImgurUploadResponse.self, from: data)
-        if d.success {
-            if let link = d.data?.link {
+        let decoded = try JSONDecoder().decode(ImgurUploadResponse.self, from: data)
+        if decoded.success {
+            if let link = decoded.data?.link {
                 UserDefaults.standard.set(
-                    link,
-                    forKey: workspace.absoluteString
-                )
-                UserDefaults.standard.synchronize()
+                    link, forKey: workspace.absoluteString
+                ); UserDefaults.standard.synchronize()
                 return link
             }
             return "default_app_icon"
@@ -113,23 +107,7 @@ func UploadIcon(path: URL?, workspace: URL) async -> String {
     }
 }
 
-func GetDataResponse(for request: URLRequest) throws -> (Data, URLResponse) {
-    var error: (any Error)?
-    var (d, rs): (Data, URLResponse) = (Data(), URLResponse())
-    URLSession.shared.dataTask(with: request) { data, response, e in
-        if let e {
-            error = e
-        }
-        d = data!
-        rs = response!
-    }
-    if let error {
-        throw error
-    }
-    return (d, rs)
-}
-
-func RunAppleScript(script: String) -> String? {
+func runAppleScript(script: String) -> String? {
     // Create an NSAppleScript instance with the provided script
     let appleScript = NSAppleScript(source: script)
 
@@ -144,49 +122,34 @@ func RunAppleScript(script: String) -> String? {
     return nil
 }
 
-func GetFileExtension(file: URL) -> String {
-    let ex = file.pathExtension
+func getFileExtension(file: URL) -> String {
+    let ext = file.pathExtension
 
-    switch ex {
-    case "c":
-        return "c"
+    switch ext {
     case "xcdatamodel":
         return "coredata"
     case "xcdatamodeld":
         return "coredata"
-    case "cpp":
-        return "cpp"
-    case "exp":
-        return "exp"
     case "h":
         return "header"
-    case "metal":
-        return "metal"
-    case "nib":
-        return "nib"
     case "m":
         return "objc"
-    case "plist":
-        return "plist"
     case "r":
         return "rez"
     case "rb":
         return "ruby"
-    case "storyboard":
-        return "storyboard"
-    case "swift":
-        return "swift"
-    case "xcodeproj":
-        return "xcodeproj"
-    case "xcworkspace":
-        return "xcworkspace"
-    case "xib":
-        return "xib"
     case "y":
         return "yacc"
     case "entitlements":
         return "entitlement"
     default:
+        if ["c", "cpp", "exp",
+            "metal", "nib", "plist",
+            "storyboard", "swift",
+            "xcodeproj", "xcworkspace", "xib"]
+            .contains(where: {$0 == ext}) {
+            return ext
+        }
         return "empty"
     }
 }

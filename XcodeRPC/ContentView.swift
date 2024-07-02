@@ -28,7 +28,7 @@ struct ContentView: View {
         if !info.connected {
             Button("Connect RPC") {
                 info.connecting = true
-                let _ = rpc.connect()
+                _ = rpc.connect()
                 if !info.connected {
                     showAlert = true
                 }
@@ -56,6 +56,7 @@ struct ContentView: View {
         Button("Invalidate Icon Cache") {
             let alert = NSAlert()
             alert.messageText = "Invalidate Icon Cache"
+            // swiftlint:disable:next line_length
             alert.informativeText = "All icons will be removed for all applications. This action is irreversible. Are you sure?"
             alert.alertStyle = .warning
 

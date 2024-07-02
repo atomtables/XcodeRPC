@@ -11,10 +11,11 @@
 		332452FC2C306D3B001B386F /* SwordRPC in Frameworks */ = {isa = PBXBuildFile; productRef = 332452FB2C306D3B001B386F /* SwordRPC */; };
 		332452FE2C307240001B386F /* Secrets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 332452FD2C30723D001B386F /* Secrets.swift */; };
 		332453002C30747C001B386F /* Structures.swift in Sources */ = {isa = PBXBuildFile; fileRef = 332452FF2C30747A001B386F /* Structures.swift */; };
-		332453042C30C334001B386F /* Data+MultipartRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 332453032C30C315001B386F /* Data+MultipartRequest.swift */; };
+		332453042C30C334001B386F /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 332453032C30C315001B386F /* Extensions.swift */; };
 		335F2D632C31A45000439F3E /* InterViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 335F2D622C31A44500439F3E /* InterViewState.swift */; };
 		335F2D652C31A4CF00439F3E /* AppleScripts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 335F2D642C31A4CC00439F3E /* AppleScripts.swift */; };
 		335F2D702C3231CF00439F3E /* Functions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 335F2D6F2C3231CD00439F3E /* Functions.swift */; };
+		33C671052C33979B00B8BB1F /* MultipartRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33C671042C33979700B8BB1F /* MultipartRequest.swift */; };
 		33D520A72C3059C30034C89E /* XcodeRPCApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D520A62C3059C30034C89E /* XcodeRPCApp.swift */; };
 		33D520A92C3059C30034C89E /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D520A82C3059C30034C89E /* ContentView.swift */; };
 		33D520AB2C3059C60034C89E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 33D520AA2C3059C60034C89E /* Assets.xcassets */; };
@@ -24,11 +25,12 @@
 /* Begin PBXFileReference section */
 		332452FD2C30723D001B386F /* Secrets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Secrets.swift; sourceTree = "<group>"; };
 		332452FF2C30747A001B386F /* Structures.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Structures.swift; sourceTree = "<group>"; };
-		332453032C30C315001B386F /* Data+MultipartRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+MultipartRequest.swift"; sourceTree = "<group>"; };
+		332453032C30C315001B386F /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		335F2D622C31A44500439F3E /* InterViewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterViewState.swift; sourceTree = "<group>"; };
 		335F2D642C31A4CC00439F3E /* AppleScripts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleScripts.swift; sourceTree = "<group>"; };
 		335F2D6F2C3231CD00439F3E /* Functions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Functions.swift; sourceTree = "<group>"; };
 		337BC4182C3312CF0098DDB5 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		33C671042C33979700B8BB1F /* MultipartRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipartRequest.swift; sourceTree = "<group>"; };
 		33D520A32C3059C30034C89E /* XcodeRPC.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = XcodeRPC.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		33D520A62C3059C30034C89E /* XcodeRPCApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XcodeRPCApp.swift; sourceTree = "<group>"; };
 		33D520A82C3059C30034C89E /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -76,7 +78,8 @@
 				335F2D6F2C3231CD00439F3E /* Functions.swift */,
 				335F2D642C31A4CC00439F3E /* AppleScripts.swift */,
 				335F2D622C31A44500439F3E /* InterViewState.swift */,
-				332453032C30C315001B386F /* Data+MultipartRequest.swift */,
+				33C671042C33979700B8BB1F /* MultipartRequest.swift */,
+				332453032C30C315001B386F /* Extensions.swift */,
 				332452FF2C30747A001B386F /* Structures.swift */,
 				332452FD2C30723D001B386F /* Secrets.swift */,
 				33D520B52C305AA20034C89E /* Info.plist */,
@@ -109,6 +112,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				33C671082C33990900B8BB1F /* PBXTargetDependency */,
 			);
 			name = XcodeRPC;
 			packageProductDependencies = (
@@ -145,6 +149,7 @@
 			mainGroup = 33D5209A2C3059C30034C89E;
 			packageReferences = (
 				332452FA2C306D3B001B386F /* XCRemoteSwiftPackageReference "SwordRPC" */,
+				33C671062C3398A400B8BB1F /* XCRemoteSwiftPackageReference "SwiftLintPlugins" */,
 			);
 			productRefGroup = 33D520A42C3059C30034C89E /* Products */;
 			projectDirPath = "";
@@ -172,11 +177,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				332453042C30C334001B386F /* Data+MultipartRequest.swift in Sources */,
+				332453042C30C334001B386F /* Extensions.swift in Sources */,
 				335F2D632C31A45000439F3E /* InterViewState.swift in Sources */,
 				33D520A92C3059C30034C89E /* ContentView.swift in Sources */,
 				335F2D702C3231CF00439F3E /* Functions.swift in Sources */,
 				332453002C30747C001B386F /* Structures.swift in Sources */,
+				33C671052C33979B00B8BB1F /* MultipartRequest.swift in Sources */,
 				335F2D652C31A4CF00439F3E /* AppleScripts.swift in Sources */,
 				332452FE2C307240001B386F /* Secrets.swift in Sources */,
 				33D520A72C3059C30034C89E /* XcodeRPCApp.swift in Sources */,
@@ -184,6 +190,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		33C671082C33990900B8BB1F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			productRef = 33C671072C33990900B8BB1F /* SwiftLintBuildToolPlugin */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		33D520B02C3059C60034C89E /* Debug */ = {
@@ -398,6 +411,14 @@
 				kind = branch;
 			};
 		};
+		33C671062C3398A400B8BB1F /* XCRemoteSwiftPackageReference "SwiftLintPlugins" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SimplyDanny/SwiftLintPlugins";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.55.1;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -409,6 +430,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 332452FA2C306D3B001B386F /* XCRemoteSwiftPackageReference "SwordRPC" */;
 			productName = SwordRPC;
+		};
+		33C671072C33990900B8BB1F /* SwiftLintBuildToolPlugin */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 33C671062C3398A400B8BB1F /* XCRemoteSwiftPackageReference "SwiftLintPlugins" */;
+			productName = "plugin:SwiftLintBuildToolPlugin";
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
