@@ -9,6 +9,7 @@ import SwiftUI
 import SwordRPC
 
 struct ContentView: View {
+    @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     @EnvironmentObject var info: Properties
 
     @State var showAlert = false
