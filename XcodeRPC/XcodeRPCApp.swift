@@ -41,13 +41,42 @@ struct XcodeRPCApp: App {
     @StateObject var info = Properties.shared
 
     init() {
-        RPCEventHandlers()
         DispatchQueue.main.async {
             Properties.shared.tick = !Properties.shared.tick
             Timer.scheduledTimer(withTimeInterval: 0.25, repeats: true) { _ in
                 Properties.shared.tick.toggle()
             }
         }
+        NSWorkspace.shared.notificationCenter
+            .addObserver(
+                forName: NSWorkspace.didLaunchApplicationNotification,
+                object: nil,
+                queue: nil
+            ) { notif in
+                    if let app = notif.userInfo?[NSWorkspace.applicationUserInfoKey] as? NSRunningApplication {
+                        if app.bundleIdentifier == "com.apple.dt.Xcode" {
+                            NSLog("xcode launched, connecting...")
+                            DONOTCONNECT = false
+                            connectRPC()
+                        }
+                    }
+                }
+        NSWorkspace.shared.notificationCenter
+            .addObserver(
+                forName: NSWorkspace.didTerminateApplicationNotification,
+                object: nil,
+                queue: nil
+            ) { notif in
+                    if let app = notif.userInfo?[NSWorkspace.applicationUserInfoKey] as? NSRunningApplication {
+                        if app.bundleIdentifier == "com.apple.dt.Xcode" {
+                            NSLog("xcode closed, disconnecting...")
+                            DONOTCONNECT = true
+                            Properties.shared.connected = false
+                            disconnectRPC()
+                            _ = runAppleScript(script: quitXcodeScript)
+                        }
+                    }
+                }
     }
 
     var body: some Scene {
