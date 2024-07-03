@@ -81,7 +81,8 @@ struct ContentView: View {
         }
         Divider()
         Button("Quit") {
-            exit(0)
+            disconnectRPC()
+            NSApp.terminate(nil)
         }
     }
 }
