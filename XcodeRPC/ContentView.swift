@@ -12,6 +12,7 @@ struct ContentView: View {
     @EnvironmentObject var info: Properties
 
     @State var showAlert = false
+    @State var disableConnectionButton = true
 
     var body: some View {
         if let workspace = info.workspace {
@@ -31,6 +32,16 @@ struct ContentView: View {
                 connectRPC()
                 if !info.connected {
                     showAlert = true
+                }
+            }
+            .disabled(disableConnectionButton)
+            .task {
+                for app in NSWorkspace.shared.runningApplications {
+                    if app.bundleIdentifier == "com.apple.dt.Xcode" {
+                        disableConnectionButton = false
+                        break
+                    }
+                    disableConnectionButton = true
                 }
             }
             .alert(isPresented: $showAlert) {
