@@ -15,6 +15,7 @@
 		335F2D632C31A45000439F3E /* InterViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 335F2D622C31A44500439F3E /* InterViewState.swift */; };
 		335F2D652C31A4CF00439F3E /* AppleScripts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 335F2D642C31A4CC00439F3E /* AppleScripts.swift */; };
 		335F2D702C3231CF00439F3E /* Functions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 335F2D6F2C3231CD00439F3E /* Functions.swift */; };
+		33C3B1C62C34CD97008A8219 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33C3B1C52C34CD93008A8219 /* AppDelegate.swift */; };
 		33C671052C33979B00B8BB1F /* MultipartRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33C671042C33979700B8BB1F /* MultipartRequest.swift */; };
 		33D520A72C3059C30034C89E /* XcodeRPCApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D520A62C3059C30034C89E /* XcodeRPCApp.swift */; };
 		33D520A92C3059C30034C89E /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D520A82C3059C30034C89E /* ContentView.swift */; };
@@ -30,6 +31,7 @@
 		335F2D642C31A4CC00439F3E /* AppleScripts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleScripts.swift; sourceTree = "<group>"; };
 		335F2D6F2C3231CD00439F3E /* Functions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Functions.swift; sourceTree = "<group>"; };
 		337BC4182C3312CF0098DDB5 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		33C3B1C52C34CD93008A8219 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		33C671042C33979700B8BB1F /* MultipartRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipartRequest.swift; sourceTree = "<group>"; };
 		33D520A32C3059C30034C89E /* XcodeRPC.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = XcodeRPC.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		33D520A62C3059C30034C89E /* XcodeRPCApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XcodeRPCApp.swift; sourceTree = "<group>"; };
@@ -73,6 +75,7 @@
 		33D520A52C3059C30034C89E /* XcodeRPC */ = {
 			isa = PBXGroup;
 			children = (
+				33C3B1C52C34CD93008A8219 /* AppDelegate.swift */,
 				33D520A62C3059C30034C89E /* XcodeRPCApp.swift */,
 				33D520A82C3059C30034C89E /* ContentView.swift */,
 				335F2D6F2C3231CD00439F3E /* Functions.swift */,
@@ -185,6 +188,7 @@
 				33C671052C33979B00B8BB1F /* MultipartRequest.swift in Sources */,
 				335F2D652C31A4CF00439F3E /* AppleScripts.swift in Sources */,
 				332452FE2C307240001B386F /* Secrets.swift in Sources */,
+				33C3B1C62C34CD97008A8219 /* AppDelegate.swift in Sources */,
 				33D520A72C3059C30034C89E /* XcodeRPCApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -339,7 +343,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				MARKETING_VERSION = 0.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = dev.atomtables.XcodeRPC;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -370,7 +374,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				MARKETING_VERSION = 0.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = dev.atomtables.XcodeRPC;
 				PRODUCT_NAME = "$(TARGET_NAME)";
