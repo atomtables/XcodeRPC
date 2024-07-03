@@ -26,9 +26,9 @@ struct ContentView: View {
         Divider()
         Text("Status: \(info.connected ? "Connected" : "Disconnected")")
         if !info.connected {
-            Button("Connect RPC") {
-                info.connecting = true
-                _ = rpc.connect()
+            Button("Connect RPC \(disableConnectionButton ? "(Xcode is not active)" : "")") {
+                DONOTCONNECT = false
+                connectRPC()
                 if !info.connected {
                     showAlert = true
                 }
@@ -38,16 +38,8 @@ struct ContentView: View {
             }
         } else {
             Button("Disconnect RPC") {
-                rpc.disconnect()
-                info.workspace = nil
-                info.target = nil
-                info.currentFile = nil
-                oldWorkspace = nil
-                oldTarget = nil
-                oldCurrentFile = nil
-                rpc = SwordRPC(appId: "1257064229203214426")
-                presence.timestamps.start = .now
-                RPCEventHandlers()
+                DONOTCONNECT = true
+                disconnectRPC()
             }
             .alert(isPresented: $showAlert) {
                 Alert(title: Text("Failed to connect. Check if Discord is open, or check the console for info."))
