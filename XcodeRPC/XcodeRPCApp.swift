@@ -7,6 +7,8 @@
 
 import SwiftUI
 
+var DONOTCONNECT = false
+
 final class Properties: ObservableObject {
     static var shared: Properties = Properties()
 
