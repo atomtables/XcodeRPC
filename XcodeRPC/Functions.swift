@@ -51,7 +51,8 @@ func findIcon(workspace: URL) -> URL? {
     }
 }
 
-func uploadIcon(path: URL?, workspace: URL) async -> String {
+// swiftlint:disable:next function_body_length
+func uploadIcon(path: URL?, workspace: URL, completion: @escaping (String) -> Void) {
     if let url = UserDefaults.standard.object(forKey: workspace.absoluteString) as? String {
         var valid = true
         checkWebsite(urlString: url) { exists in
@@ -60,11 +61,14 @@ func uploadIcon(path: URL?, workspace: URL) async -> String {
                 valid = false
             }
         }
-        if valid {return url}
+        NSLog("collected from cache")
+        if valid {completion(url)}
+        return
     }
 
     guard let path else {
-        return "default_app_icon"
+        completion("default_app_icon")
+        return
     }
 
     do {
@@ -88,28 +92,37 @@ func uploadIcon(path: URL?, workspace: URL) async -> String {
         request.httpBody = multipart.httpBody
 
         /// Fire the request using URL sesson or anything else...
-        let (data, _) = try await URLSession.shared.data(for: request)
-        let decoded = try JSONDecoder().decode(ImgurUploadResponse.self, from: data)
-        if decoded.success {
-            if let link = decoded.data?.link {
-                UserDefaults.standard.set(
-                    link, forKey: workspace.absoluteString
-                ); UserDefaults.standard.synchronize()
-                return link
+        URLSession.shared.dataTask(with: request) { data, _, error in
+            if error != nil {
+                completion("default_app_icon")
             }
-            return "default_app_icon"
-        } else {
-            return "default_app_icon"
-        }
+            do {
+                let decoded = try JSONDecoder().decode(ImgurUploadResponse.self, from: data ?? Data())
+                if decoded.success {
+                    if let link = decoded.data?.link {
+                        UserDefaults.standard.set(
+                            link, forKey: workspace.absoluteString
+                        ); UserDefaults.standard.synchronize()
+                        NSLog("uploaded to imgur")
+                        completion(link)
+                    }
+                    completion("default_app_icon")
+                } else {
+                    completion("default_app_icon")
+                }
+            } catch {
+                completion("default_app_icon")
+            }
+        }.resume()
     } catch {
         NSLog("There was an error: \(error).")
-        return "default_app_icon"
+        completion("default_app_icon")
     }
 }
 
 func runAppleScript(script: String) -> String? {
     // Create an NSAppleScript instance with the provided script
-    let appleScript = NSAppleScript(source: script)
+    let appleScript = NSAppleScript.init(source: script)
 
     // Execute the AppleScript and get the result
     var error: NSDictionary?
