@@ -67,7 +67,7 @@ func connectRPC() {
 }
 
 func disconnectRPC() {
-    concurrentExecution.invalidate()
+    concurrentExecution?.invalidate()
     Properties.shared.connected = false
 
     Properties.shared.workspace = nil
