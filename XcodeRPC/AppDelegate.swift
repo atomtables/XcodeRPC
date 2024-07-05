@@ -13,13 +13,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationDidFinishLaunching(_ notification: Notification) {
         let shouldStartRPC = UserDefaults.standard.bool(forKey: "StartRPCOnLaunchOfApp")
         if shouldStartRPC {
-            DONOTCONNECT = false
             connectRPC()
         }
     }
 
     func applicationWillTerminate(_ notification: Notification) {
-        DONOTCONNECT = true
         disconnectRPC()
     }
 
