@@ -39,6 +39,22 @@ if isRunning
 end if
 """
 
+let testXcodeScript = """
+tell application "Xcode"
+    tell active workspace document
+        get path
+    end tell
+    return version
+end tell
+"""
+
+let testEventsScript = """
+tell application "System Events"
+    set isRunning to (name of processes) contains "Xcode"
+    return isRunning
+end tell
+"""
+
 let getFileScript = """
 tell application "System Events"
     set isRunning to (name of processes) contains "Xcode"
