@@ -8,6 +8,7 @@
 import SwiftUI
 import SwordRPC
 
+/// `ContentView` is the app's main menu extra view.
 struct ContentView: View {
     @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     @EnvironmentObject var info: Properties
@@ -29,7 +30,6 @@ struct ContentView: View {
         Text("Status: \(info.connected ? "Connected" : "Disconnected")")
         if !info.connected {
             Button("Connect RPC \(disableConnectionButton ? "(Xcode is not active)" : "")") {
-                DONOTCONNECT = false
                 connectRPC()
                 if !info.connected {
                     showAlert = true
@@ -50,7 +50,6 @@ struct ContentView: View {
             }
         } else {
             Button("Disconnect RPC") {
-                DONOTCONNECT = true
                 disconnectRPC()
             }
             .alert(isPresented: $showAlert) {
