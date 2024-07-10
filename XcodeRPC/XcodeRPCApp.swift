@@ -7,8 +7,6 @@
 
 import SwiftUI
 
-var DONOTCONNECT = false
-
 final class Properties: ObservableObject {
     static var shared: Properties = Properties()
 
@@ -46,11 +44,13 @@ struct XcodeRPCApp: App {
     @Environment(\.dismissWindow) var dismiss
     @Environment(\.openWindow) var openWindow
 
-    @State var firstLaunch = true
+    @State var firstLaunch: Bool
     @State var count = 1
     @State var disableNext = false
 
     init() {
+        firstLaunch = !UserDefaults.standard.bool(forKey: "FirstLaunchFinished")
+
         DispatchQueue.main.async {
             Properties.shared.tick = !Properties.shared.tick
             Timer.scheduledTimer(withTimeInterval: 0.25, repeats: true) { _ in
@@ -66,7 +66,6 @@ struct XcodeRPCApp: App {
                     if let app = notif.userInfo?[NSWorkspace.applicationUserInfoKey] as? NSRunningApplication {
                         if app.bundleIdentifier == "com.apple.dt.Xcode" {
                             NSLog("xcode launched, connecting...")
-                            DONOTCONNECT = false
                             connectRPC()
                         }
                     }
@@ -80,7 +79,6 @@ struct XcodeRPCApp: App {
                     if let app = notif.userInfo?[NSWorkspace.applicationUserInfoKey] as? NSRunningApplication {
                         if app.bundleIdentifier == "com.apple.dt.Xcode" {
                             NSLog("xcode closed, disconnecting...")
-                            DONOTCONNECT = true
                             Properties.shared.connected = false
                             disconnectRPC()
                             _ = runAppleScript(script: quitXcodeScript)
@@ -322,6 +320,7 @@ struct WelcomeTabView: View {
                     Text("If you like this project, give it a star on GitHub!")
                     Button("Begin...") {
                         firstLaunch = false
+                        UserDefaults.standard.setValue(true, forKey: "FirstLaunchFinished")
                     }
                 }
                     .transition(.move(edge: fourthTabTransition))
