@@ -43,12 +43,24 @@ func connectRPC() {
         }
         RunLoop.main.add(timer, forMode: .common)
         timer.fire()
+    } else {
+        Properties.shared.connected = false
+        Properties.shared.connecting = false
+        disconnectRPC()
+
+        let alert = NSAlert()
+        alert.messageText = "An error occured"
+        alert.informativeText = "XcodeRPC was unable to connect to Discord. Try again later."
+        alert.alertStyle = .critical
+        alert.addButton(withTitle: "OK")
+        alert.runModal()
     }
 }
 
 func disconnectRPC() {
     timer?.invalidate()
     Properties.shared.connected = false
+    Properties.shared.connecting = false
 
     Properties.shared.workspace = nil
     Properties.shared.target = nil
