@@ -99,6 +99,10 @@ struct XcodeRPCApp: App {
         MenuBarExtra("XcodeRPC", systemImage: info.image) {
             if firstLaunch {
                 Text("Please continue setup.")
+                Button("Quit") {
+                    disconnectRPC()
+                    NSApp.terminate(nil)
+                }
             } else {
                 ContentView()
                     .environmentObject(info)
