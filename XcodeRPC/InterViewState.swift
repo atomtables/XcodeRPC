@@ -9,7 +9,6 @@ import SwordRPC
 import Cocoa
 
 var rpc: SwordRPC!
-var concurrentExecution: Timer!
 var timer: Timer!
 
 var oldWorkspace: String?
@@ -34,7 +33,6 @@ func connectRPC() {
     let connected = rpc.connect()
 
     if connected {
-        concurrentExecution = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { _ in
         timer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { _ in
             if Properties.shared.connected {
                 NSLog("running \(time)")
@@ -42,8 +40,6 @@ func connectRPC() {
                 RPCUpdate()
             }
         }
-        RunLoop.main.add(concurrentExecution, forMode: .common)
-        concurrentExecution.fire()
         RunLoop.main.add(timer, forMode: .common)
         timer.fire()
     }
