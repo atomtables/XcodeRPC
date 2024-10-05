@@ -18,34 +18,12 @@ var oldCurrentFile: String?
 var time: Int = 0
 
 var presence = RichPresence(start: Date())
+let delegate = XRPCSwordRPCDelegate()
 
 fileprivate func initialiseRPC() {
     NSLog("initialised RPC")
     rpc = SwordRPC(appId: "1257064229203214426")
-    rpc.onConnect { _ in
-        NSLog("Connected")
-        DispatchQueue.main.async {
-            Properties.shared.connected = true
-            Properties.shared.connecting = false
-        }
-    }
-
-    rpc.onDisconnect { _, code, msg in
-        NSLog("Disconnected: \(code ?? 0) \(msg ?? "no message")")
-        Properties.shared.connected = false
-    }
-
-    rpc.onError { _, code, msg in
-        NSLog("Discord returned an error: \(code) \(msg)")
-        let alert = NSAlert()
-        alert.messageText = "Discord returned an error."
-        alert.informativeText = "Code \(code): \(msg)"
-        alert.alertStyle = .critical
-
-        // Add buttons
-        alert.addButton(withTitle: "OK")
-        _ = alert.runModal()
-    }
+    rpc.delegate = delegate
 }
 
 func connectRPC() {
