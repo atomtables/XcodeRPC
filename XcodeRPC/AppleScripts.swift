@@ -86,3 +86,54 @@ if isRunning
     end tell
 end if
 """
+
+/// A more efficient method would be to
+/// just call all 4 scripts in 1 script, as we would only need to check
+/// System Events once afaik.
+///
+/// Also, if window name source is not in open source
+let getAllAppleScript = """
+tell application "System Events"
+    set isRunning to (name of processes) contains "Xcode"
+end tell
+
+set xtarget to ""
+set xworkspace to ""
+set xfile to ""
+set xsources to {}
+
+if isRunning then
+    tell application "Xcode"
+        tell active workspace document
+            try
+                set xtarget to name of (get first target of (get first project))
+            on error errorMessage number errorNumber
+                set xtarget to null
+            end try
+        end tell
+        tell active workspace document
+            try
+                set xworkspace to path
+            on error errorMessage number errorNumber
+                set xworkspace to null
+            end try
+        end tell
+        try
+            set last_word to (word -1 of (get name of window 1))
+            if (last_word = "Edited") then
+                set xfile to name of document 1 whose name ends with (word -2 of (get name of window 1))
+            else
+                set xfile to name of document 1 whose name ends with (word -1 of (get name of window 1))
+            end if
+        on error errorMessage number errorNumber
+            set xfile to null
+        end try
+        try
+            set xsources to the path of documents 2 thru -1
+        on error errorMessage number errorNumber
+            set xsources to null
+        end try
+        return {xworkspace, xtarget, xfile, xsources}
+    end tell
+end if
+"""
