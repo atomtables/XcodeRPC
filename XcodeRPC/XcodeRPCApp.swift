@@ -40,6 +40,7 @@ final class Properties: ObservableObject {
 
 @main
 struct XcodeRPCApp: App {
+    @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     @StateObject var info = Properties.shared
     @Environment(\.dismissWindow) var dismiss
     @Environment(\.openWindow) var openWindow
