@@ -15,6 +15,42 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         if shouldStartRPC {
             connectRPC()
         }
+
+        NSWorkspace.shared.notificationCenter
+            .addObserver(
+                forName: NSWorkspace.didLaunchApplicationNotification,
+                object: nil,
+                queue: nil
+            ) { notif in
+                if let app = notif.userInfo?[NSWorkspace.applicationUserInfoKey] as? NSRunningApplication {
+                    if app.bundleIdentifier == "com.apple.dt.Xcode" {
+                        NSLog("xcode launched")
+                        xcodeRunning = true
+                        if xcodeRunning && discordRunning { connectRPC() }
+                    } else if app.bundleIdentifier == "com.hnc.Discord" {
+                        NSLog("discord launched")
+                        discordRunning = true
+                    }
+                }
+            }
+        NSWorkspace.shared.notificationCenter
+            .addObserver(
+                forName: NSWorkspace.didTerminateApplicationNotification,
+                object: nil,
+                queue: nil
+            ) { notif in
+                if let app = notif.userInfo?[NSWorkspace.applicationUserInfoKey] as? NSRunningApplication {
+                    if app.bundleIdentifier == "com.apple.dt.Xcode" {
+                        NSLog("xcode quit")
+                        xcodeRunning = false
+                        disconnectRPC()
+                    } else if app.bundleIdentifier == "com.hnc.Discord" {
+                        NSLog("discord quit")
+                        discordRunning = false
+                        disconnectRPC()
+                    }
+                }
+            }
     }
 
     func applicationWillTerminate(_ notification: Notification) {

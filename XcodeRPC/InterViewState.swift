@@ -11,6 +11,9 @@ import Cocoa
 var rpc: SwordRPC!
 var timer: Timer!
 
+var discordRunning: Bool = false
+var xcodeRunning: Bool = false
+
 var oldWorkspace: String?
 var oldTarget: String?
 var oldCurrentFile: String?
