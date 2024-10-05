@@ -21,6 +21,7 @@ var presence = RichPresence(start: Date())
 let delegate = XRPCSwordRPCDelegate()
 
 fileprivate func initialiseRPC() {
+private func initialiseRPC() {
     NSLog("initialised RPC")
     rpc = SwordRPC(appId: "1257064229203214426")
     rpc.delegate = delegate
