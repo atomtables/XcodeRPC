@@ -58,34 +58,6 @@ struct XcodeRPCApp: App {
                 Properties.shared.tick.toggle()
             }
         }
-        NSWorkspace.shared.notificationCenter
-            .addObserver(
-                forName: NSWorkspace.didLaunchApplicationNotification,
-                object: nil,
-                queue: nil
-            ) { notif in
-                    if let app = notif.userInfo?[NSWorkspace.applicationUserInfoKey] as? NSRunningApplication {
-                        if app.bundleIdentifier == "com.apple.dt.Xcode" {
-                            NSLog("xcode launched, connecting...")
-                            connectRPC()
-                        }
-                    }
-                }
-        NSWorkspace.shared.notificationCenter
-            .addObserver(
-                forName: NSWorkspace.didTerminateApplicationNotification,
-                object: nil,
-                queue: nil
-            ) { notif in
-                    if let app = notif.userInfo?[NSWorkspace.applicationUserInfoKey] as? NSRunningApplication {
-                        if app.bundleIdentifier == "com.apple.dt.Xcode" {
-                            NSLog("xcode closed, disconnecting...")
-                            Properties.shared.connected = false
-                            disconnectRPC()
-                            _ = runAppleScript(script: quitXcodeScript)
-                        }
-                    }
-                }
     }
 
     var body: some Scene {
