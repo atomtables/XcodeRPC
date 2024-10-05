@@ -212,3 +212,38 @@ func checkWebsite(urlString: String, completion: @escaping (Bool) -> Void) {
     // Start the data task
     task.resume()
 }
+
+typealias Opt = Optional
+
+func readAppleScriptStringList(_ event: NSAppleEventDescriptor?) -> [String]? {
+    if let event {
+        var retval: [String] = []
+        guard let count = Opt(event.numberOfItems), count > 0 else {
+            return nil
+        }
+        for index in 1...count {
+            retval.append(event.atIndex(index)!.stringValue!)
+        }
+        return retval
+    }
+    return nil
+}
+
+func runCombinedMainAppleScript() throws(XRPCError)
+            -> (String?, String?, String?, [String]?) {
+    let appleScript = NSAppleScript.init(source: getAllAppleScript)
+    var error: NSDictionary?
+    let result = appleScript?.executeAndReturnError(&error)
+    if let result {
+        let target = result.atIndex(1)?.stringValue
+        let workspace = result.atIndex(2)?.stringValue
+        let file = result.atIndex(3)?.stringValue
+        let sources = readAppleScriptStringList(result.atIndex(4))
+        return (target, workspace, file, sources)
+    } else {
+        NSLog("AppleScript execution error: \(error?["NSAppleScriptErrorMessage"] ?? "(an unknown error occured)")")
+        throw XRPCError.error(
+            "AppleScript execution error: \(error?["NSAppleScriptErrorMessage"] ?? "(an unknown error occured)")"
+        )
+    }
+}

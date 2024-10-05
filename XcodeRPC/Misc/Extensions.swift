@@ -32,3 +32,7 @@ extension URL {
         self.init(fileURLWithPath: file)
     }
 }
+
+enum XRPCError: Error {
+    case error(String)
+}

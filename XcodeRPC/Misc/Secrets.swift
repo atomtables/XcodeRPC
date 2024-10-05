@@ -6,5 +6,5 @@
 //
 
 // for imgur: make an app and use client_id to show others the icon of your app
-#error("Add a CLIENT_ID, or remove this line.")
-let CLIENTID = ""
+// #error("Add a CLIENT_ID, or remove this line.")
+let CLIENTID = "90a76510535cc6a"

@@ -10,11 +10,10 @@ import SwordRPC
 
 /// `ContentView` is the app's main menu extra view.
 struct ContentView: View {
-    @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     @EnvironmentObject var info: Properties
 
     @State var showAlert = false
-    @State var disableConnectionButton = true
+    var disableConnectionButton: Bool { !xcodeRunning || !discordRunning }
 
     var body: some View {
         if let workspace = info.workspace {
@@ -27,33 +26,33 @@ struct ContentView: View {
             Text(currentFile)
         }
         Divider()
-        Text("Status: \(info.connected ? "Connected" : "Disconnected")")
+        Text("Status: \(info.connected ? "Connected" : info.connecting ? "Connecting..." : "Disconnected")")
         if !info.connected {
-            Button("Connect RPC \(disableConnectionButton ? "(Xcode is not active)" : "")") {
+            Button("Connect RPC") {
                 connectRPC()
                 if !info.connected {
                     showAlert = true
                 }
             }
-            .disabled(disableConnectionButton)
-            .task {
+            .onAppear {
                 for app in NSWorkspace.shared.runningApplications {
                     if app.bundleIdentifier == "com.apple.dt.Xcode" {
-                        disableConnectionButton = false
-                        break
+                        xcodeRunning = true
+                    } else if app.bundleIdentifier == "com.hnc.Discord" {
+                        discordRunning = true
                     }
-                    disableConnectionButton = true
                 }
             }
+            .disabled(disableConnectionButton)
             .alert(isPresented: $showAlert) {
                 Alert(title: Text("Failed to connect. Check if Discord is open, or check the console for info."))
+            }
+            if !discordRunning || !xcodeRunning {
+                Text("Run Xcode/Discord to connect...")
             }
         } else {
             Button("Disconnect RPC") {
                 disconnectRPC()
-            }
-            .alert(isPresented: $showAlert) {
-                Alert(title: Text("Failed to connect. Check if Discord is open, or check the console for info."))
             }
         }
         Button("Invalidate Icon Cache") {
@@ -82,6 +81,9 @@ struct ContentView: View {
                 break
             }
         }
+        Divider()
+        Button("Launch on Startup") {}
+            .disabled(true)
         Divider()
         Button("Quit") {
             disconnectRPC()
