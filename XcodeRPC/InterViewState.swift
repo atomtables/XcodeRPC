@@ -34,7 +34,9 @@ func connectRPC() {
     if connected {
         timer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { _ in
             if Properties.shared.connected {
-                NSLog("running \(time)")
+                if time % 2 == 0 {
+                    NSLog("running \(time / 2)")
+                }
                 time += 1
                 RPCUpdate()
             }
