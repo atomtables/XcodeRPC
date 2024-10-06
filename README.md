@@ -2,7 +2,7 @@
 
 A functional (and somewhat pretty) Discord Rich Presence client for Xcode. Supports the latest versions of Xcode (tested on Xcode-beta 16.0)
 
-Supports **macOS 13.0**. Xcode 14+ *should* have the best experience.
+Supports **macOS 14.0**. Xcode 14+ *should* have the best experience.
 Support for older versions of macOS may come further down the line.
 
 It supports using your app icon and displaying it on Discord by uploading it to Imgur. (This functionality can be disabled in a later commit.)
