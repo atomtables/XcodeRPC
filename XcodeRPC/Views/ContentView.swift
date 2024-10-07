@@ -30,9 +30,6 @@ struct ContentView: View {
         if !info.connected {
             Button("Connect RPC") {
                 connectRPC()
-                if !info.connected {
-                    showAlert = true
-                }
             }
             .onAppear {
                 for app in NSWorkspace.shared.runningApplications {
@@ -44,9 +41,6 @@ struct ContentView: View {
                 }
             }
             .disabled(disableConnectionButton)
-            .alert(isPresented: $showAlert) {
-                Alert(title: Text("Failed to connect. Check if Discord is open, or check the console for info."))
-            }
             if !discordRunning || !xcodeRunning {
                 Text("Run Xcode/Discord to connect...")
             }
@@ -58,18 +52,15 @@ struct ContentView: View {
         Button("Invalidate Icon Cache") {
             let alert = NSAlert()
             alert.messageText = "Invalidate Icon Cache"
-            // swiftlint:disable:next line_length
-            alert.informativeText = "All icons will be removed for all applications. This action is irreversible. Are you sure?"
+            alert.informativeText = "All icons will be removed for all applications. "
+            alert.informativeText += "This action is irreversible. Are you sure?"
             alert.alertStyle = .warning
 
-            // Add buttons
             alert.addButton(withTitle: "Yes")
             alert.addButton(withTitle: "No")
 
-            // Show the alert
             let response = alert.runModal()
 
-            // Handle the response
             switch response {
             case .alertFirstButtonReturn:
                 let domain = Bundle.main.bundleIdentifier!

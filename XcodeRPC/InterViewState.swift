@@ -21,7 +21,6 @@ var oldCurrentFile: String?
 var time: Int = 0
 
 var presence = RichPresence(start: Date())
-let delegate = XRPCSwordRPCDelegate()
 
 private func initialiseRPC() {
     NSLog("initialised RPC")

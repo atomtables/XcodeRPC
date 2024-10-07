@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		330D52992CB2E6C600E8BDFE /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 330D52982CB2E3F900E8BDFE /* main.swift */; };
 		332452F62C3061E8001B386F /* SwordRPC in Frameworks */ = {isa = PBXBuildFile; productRef = 332452F52C3061E8001B386F /* SwordRPC */; };
 		332452FC2C306D3B001B386F /* SwordRPC in Frameworks */ = {isa = PBXBuildFile; productRef = 332452FB2C306D3B001B386F /* SwordRPC */; };
 		335F2D632C31A45000439F3E /* InterViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 335F2D622C31A44500439F3E /* InterViewState.swift */; };
@@ -18,6 +19,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		330D52982CB2E3F900E8BDFE /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		335F2D622C31A44500439F3E /* InterViewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterViewState.swift; sourceTree = "<group>"; };
 		335F2D642C31A4CC00439F3E /* AppleScripts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleScripts.swift; sourceTree = "<group>"; };
 		337BC4182C3312CF0098DDB5 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -89,6 +91,7 @@
 				33D520AA2C3059C60034C89E /* Assets.xcassets */,
 				33D520AF2C3059C60034C89E /* XcodeRPC.entitlements */,
 				33D520AC2C3059C60034C89E /* Preview Content */,
+				330D52982CB2E3F900E8BDFE /* main.swift */,
 			);
 			path = XcodeRPC;
 			sourceTree = "<group>";
@@ -184,6 +187,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				330D52992CB2E6C600E8BDFE /* main.swift in Sources */,
 				335F2D632C31A45000439F3E /* InterViewState.swift in Sources */,
 				335F2D652C31A4CF00439F3E /* AppleScripts.swift in Sources */,
 				33C3B1C62C34CD97008A8219 /* AppDelegate.swift in Sources */,
