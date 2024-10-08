@@ -106,6 +106,7 @@ struct WelcomeScreen: View {
 }
 
 struct WelcomeTabView: View {
+    @State var oldCount: Int = 1
     @Binding var count: Int
     @Binding var firstLaunch: Bool
     @Binding var disableNext: Bool
@@ -200,7 +201,8 @@ struct WelcomeTabView: View {
             }
         }
         .frame(width: geometry.size.width-120, height: geometry.size.height)
-        .onChange(of: count) { old, new in
+        .onChange(of: count) { new in
+            let old = oldCount
             print(old, new)
             /// We are going backwards
             if old - new == 1 {
@@ -239,6 +241,7 @@ struct WelcomeTabView: View {
             withAnimation {
                 normalCount = new
             }
+            oldCount = new
         }
     }
 }
@@ -252,13 +255,13 @@ struct WelcomeRequestPermissionsView: View {
     var body: some View {
         return VStack {
             Text("Permissions").font(.largeTitle)
-                .onChange(of: xcodePermissionsReceived) { _, new in
+                .onChange(of: xcodePermissionsReceived) { new in
                     disableNext = !(new && eventsPermissionsReceived)
                 }
-                .onChange(of: eventsPermissionsReceived) { _, new in
+                .onChange(of: eventsPermissionsReceived) { new in
                     disableNext = !(new && xcodePermissionsReceived)
                 }
-                .onChange(of: count) { _, _ in
+                .onChange(of: count) { _ in
                     print("its changing :skull:")
                     disableNext = !(xcodePermissionsReceived && eventsPermissionsReceived)
                 }
