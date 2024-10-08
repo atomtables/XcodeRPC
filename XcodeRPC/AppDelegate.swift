@@ -14,6 +14,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     var statusBar: NSStatusBar!
     var statusBarItem: NSStatusItem!
+    var menu: XRPCMenu!
 
     public var items: [NSMenuItem] = []
 
@@ -28,12 +29,19 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             }
         }
 
-        statusBar = NSStatusBar()
+        DispatchQueue.main.async {
+            Properties.shared.tick = !Properties.shared.tick
+            Timer.scheduledTimer(withTimeInterval: 0.25, repeats: true) { _ in
+                Properties.shared.tick.toggle()
+            }
+        }
+
+        statusBar = NSStatusBar.system
         statusBarItem = statusBar.statusItem(withLength: NSStatusItem.variableLength)
+        statusBarItem.button?.appearance = NSAppearance.currentDrawing()
         statusBarItem.button?.image = NSImage(systemSymbolName: "hammer", accessibilityDescription: nil)
-        let menu = XRPCMenu()
+        menu = XRPCMenu()
         statusBarItem.menu = menu
-        print("made a menu: \(menu)")
 
         if UserDefaults.standard.bool(forKey: "StartRPCOnLaunchOfApp") {
             // connectRPC()
@@ -140,10 +148,68 @@ class XRPCMenu: NSMenu {
     init() {
         super.init(title: "XRPCMenu")
         createStatusBar()
+
+        workspaceMenuItem = items[0]
+        targetMenuItem = items[1]
+        currentFileMenuItem = items[2]
+        dividerOneMenuItem = items[3]
+        statusMenuItem = items[4]
+        connectMenuItem = items[5]
+        errorMenuItem = items[6]
+        disconnectMenuItem = items[7]
     }
 
     required init(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    public var workspaceMenuItem: NSMenuItem!
+    public func updateWorkspace() {
+        workspaceMenuItem.isHidden = info.workspace == nil
+        workspaceMenuItem.title = URL(fileURLWithPath: info.workspace ?? "").lastPathComponent
+        updateDividerOne()
+    }
+    public var targetMenuItem: NSMenuItem!
+    public func updateTarget() {
+        targetMenuItem.isHidden = info.target == nil
+        targetMenuItem.title = info.target ?? ""
+        updateDividerOne()
+    }
+    public var currentFileMenuItem: NSMenuItem!
+    public func updateCurrentFile() {
+        currentFileMenuItem.isHidden = info.currentFile == nil
+        currentFileMenuItem.title = info.currentFile ?? ""
+        updateDividerOne()
+    }
+    private var dividerOneMenuItem: NSMenuItem!
+    private func updateDividerOne() {
+        dividerOneMenuItem.isHidden = info.workspace == nil || info.target == nil || info.currentFile == nil
+    }
+    public var statusMenuItem: NSMenuItem!
+    public func updateStatus() {
+        statusMenuItem.title = "Status: \(info.connected ? "Connected" : info.connecting ? "Connecting..." : "Disconnected")"
+    }
+    public var connectMenuItem: NSMenuItem!
+    public var errorMenuItem: NSMenuItem!
+    public var disconnectMenuItem: NSMenuItem!
+    public func updateConnectDisconnect() {
+        if !info.connected {
+            connectMenuItem.isHidden = false
+            disconnectMenuItem.isHidden = true
+            if !xcodeRunning || !discordRunning {
+                connectMenuItem.isEnabled = false
+                errorMenuItem.isHidden = false
+            } else {
+                connectMenuItem.isEnabled = true
+                errorMenuItem.isHidden = true
+                if info.connecting {
+                    connectMenuItem.isEnabled = false
+                }
+            }
+        } else {
+            connectMenuItem.isHidden = true
+            disconnectMenuItem.isHidden = false
+        }
     }
 
     private func createStatusBar() {

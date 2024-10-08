@@ -12,28 +12,50 @@ final class Properties: ObservableObject {
 
     private init() {}
 
-    @Published var workspace: String?
-    @Published var target: String?
-    @Published var currentFile: String?
-
-    @Published var tick = false
-
-    var image: String {
-        if connecting {
-            if tick {
-                "hammer.fill"
-            } else {
-                "hammer"
-            }
-        } else if connected {
-            "hammer.fill"
-        } else {
-            "hammer"
+    @Published var workspace: String? {
+        didSet {
+            delegate.menu.updateWorkspace()
+        }
+    }
+    @Published var target: String? {
+        didSet {
+            delegate.menu.updateTarget()
+        }
+    }
+    @Published var currentFile: String? {
+        didSet {
+            delegate.menu.updateCurrentFile()
         }
     }
 
-    @Published var connecting: Bool = false
-    @Published var connected: Bool = false
+    @Published var tick = false {
+        didSet {
+            if connecting {
+                if tick {
+                    delegate.statusBarItem.button?.image = NSImage(systemSymbolName: "hammer.fill", accessibilityDescription: nil)
+                } else {
+                    delegate.statusBarItem.button?.image = NSImage(systemSymbolName: "hammer", accessibilityDescription: nil)
+                }
+            } else if connected {
+                delegate.statusBarItem.button?.image = NSImage(systemSymbolName: "hammer.fill", accessibilityDescription: nil)
+            } else {
+                delegate.statusBarItem.button?.image = NSImage(systemSymbolName: "hammer", accessibilityDescription: nil)
+            }
+        }
+    }
+
+    @Published var connecting: Bool = false {
+        didSet {
+            delegate.menu.updateStatus()
+            delegate.menu.updateConnectDisconnect()
+        }
+    }
+    @Published var connected: Bool = false {
+        didSet {
+            delegate.menu.updateStatus()
+            delegate.menu.updateConnectDisconnect()
+        }
+    }
 
     @Published var beginningScrollView: ScrollViewProxy!
 }
