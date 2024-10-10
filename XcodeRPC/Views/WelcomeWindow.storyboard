@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="23094" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="23094"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--WelcomeWindowController-->
+        <scene sceneID="2P2-j5-cje">
+            <objects>
+                <windowController storyboardIdentifier="WelcomeWindowController" id="w8G-r9-Bbn" userLabel="WelcomeWindowController" customClass="WelcomeWindowController" customModule="XcodeRPC" customModuleProvider="target" sceneMemberID="viewController">
+                    <window key="window" title="XcodeRPC Setup" separatorStyle="shadow" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" titlebarAppearsTransparent="YES" toolbarStyle="compact" id="3rj-RP-i6y" userLabel="XcodeRPC Setup">
+                        <windowStyleMask key="styleMask" titled="YES" texturedBackground="YES" fullSizeContentView="YES"/>
+                        <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
+                        <rect key="contentRect" x="245" y="301" width="860" height="480"/>
+                        <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1025"/>
+                        <value key="minSize" type="size" width="860" height="480"/>
+                        <view key="contentView" id="6rG-H0-dTb">
+                            <rect key="frame" x="0.0" y="0.0" width="860" height="480"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </view>
+                        <connections>
+                            <outlet property="delegate" destination="w8G-r9-Bbn" id="AUD-WA-6qI"/>
+                        </connections>
+                    </window>
+                </windowController>
+                <customObject id="gqu-Kl-EBo" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-456" y="-751"/>
+        </scene>
+    </scenes>
+</document>

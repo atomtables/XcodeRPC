@@ -7,6 +7,46 @@
 
 import SwiftUI
 
+class WelcomeWindowController: NSWindowController {
+    func displayWindow() {
+        self.window?.makeKeyAndOrderFront(nil)
+        self.window?.level = .floating
+    }
+
+    override func windowDidLoad() {
+        window?.contentView = NSHostingView(
+            rootView: WelcomeScreenCompleteView()
+        )
+        window?.setFrame(NSRect(x: 0, y: 0, width: 860, height: 480), display: true)
+    }
+}
+
+struct WelcomeScreenCompleteView: View {
+    @State var count = 1
+    @State var firstLaunch = true
+    @State var disableNext = false
+
+    @State var xcodePermissionsReceived = false
+    @State var eventsPermissionsReceived = false
+
+    var body: some View {
+        WelcomeScreen(
+            count: $count,
+            firstLaunch: $firstLaunch,
+            disableNext: $disableNext,
+            xcodePermissionsReceived: $xcodePermissionsReceived,
+            eventsPermissionsReceived: $eventsPermissionsReceived
+        )
+        .toolbar {
+            Group {
+                Spacer()
+                WelcomeTabBar(count: $count)
+            }
+        }
+        .environmentObject(Properties.shared)
+    }
+}
+
 struct WelcomeTabBar: View {
     @Binding var count: Int
     var body: some View {

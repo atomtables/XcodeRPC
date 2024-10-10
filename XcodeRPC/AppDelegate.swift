@@ -20,7 +20,15 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     let info = Properties.shared
 
+    var myWindowController: WelcomeWindowController!
+
     func applicationDidFinishLaunching(_ notification: Notification) {
+        var storyboard: NSStoryboard = NSStoryboard(name: "WelcomeWindow", bundle: nil)
+        myWindowController = storyboard.instantiateController(
+            withIdentifier: "WelcomeWindowController"
+        ) as? WelcomeWindowController
+        myWindowController.displayWindow()
+
         for app in NSWorkspace.shared.runningApplications {
             if app.bundleIdentifier == "com.apple.dt.Xcode" {
                 xcodeRunning = true
