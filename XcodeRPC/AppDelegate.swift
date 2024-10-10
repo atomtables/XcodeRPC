@@ -20,7 +20,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     let info = Properties.shared
 
-    var myWindowController: WelcomeWindowController!
+    var windowController: WelcomeWindowController!
+
+    @objc func hideWelcomeWindow() { windowController.hideWindow() }
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         var storyboard: NSStoryboard = NSStoryboard(name: "WelcomeWindow", bundle: nil)

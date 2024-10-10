@@ -13,6 +13,11 @@ class WelcomeWindowController: NSWindowController {
         self.window?.level = .floating
     }
 
+    func hideWindow() {
+        self.window?.close()
+        self.window = nil
+    }
+
     override func windowDidLoad() {
         window?.contentView = NSHostingView(
             rootView: WelcomeScreenCompleteView()
