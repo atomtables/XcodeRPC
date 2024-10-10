@@ -17,7 +17,6 @@ class WelcomeWindowController: NSWindowController {
         window?.contentView = NSHostingView(
             rootView: WelcomeScreenCompleteView()
         )
-        window?.setFrame(NSRect(x: 0, y: 0, width: 860, height: 480), display: true)
     }
 }
 
@@ -52,27 +51,29 @@ struct WelcomeTabBar: View {
     var body: some View {
         HStack {
             Image(systemName: count == 1 ? "circlebadge.fill" : "circlebadge")
-                .symbolRenderingMode(.hierarchical)
-                .foregroundStyle(Color.accentColor)
+                .foregroundColor(Color.accentColor)
             Image(systemName: count == 2 ? "circlebadge.fill" : "circlebadge")
-                .symbolRenderingMode(.hierarchical)
-                .foregroundStyle(Color.accentColor)
+                .foregroundColor(Color.accentColor)
             Image(systemName: count == 3 ? "circlebadge.fill" : "circlebadge")
-                .symbolRenderingMode(.hierarchical)
-                .foregroundStyle(Color.accentColor)
+                .foregroundColor(Color.accentColor)
             Image(systemName: count == 4 ? "circlebadge.fill" : "circlebadge")
-                .symbolRenderingMode(.hierarchical)
-                .foregroundStyle(Color.accentColor)
+                .foregroundColor(Color.accentColor)
         }
         .offset(x: -35)
     }
 }
 
 struct WelcomeScreen: View {
-    @EnvironmentObject var info: Properties
+    var info: Properties = Properties.shared
     @Binding var count: Int
     @Binding var firstLaunch: Bool
     @Binding var disableNext: Bool
+
+    @Binding var xcodePermissionsReceived: Bool
+    @Binding var eventsPermissionsReceived: Bool
+
+    @State private var leftIsHovering: Bool = false
+    @State private var rightIsHovering: Bool = false
 
     @State private var leftHover: Bool = false
     @State private var rightHover: Bool = false
@@ -87,13 +88,14 @@ struct WelcomeScreen: View {
                 Image(systemName: "chevron.compact.left")
                     .scaleEffect(2)
                     .padding()
-                    .foregroundStyle(count == 1 ? .quinary : .tertiary)
+                    .foregroundColor(count == 1 ? Color(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 0.1950796772)) : Color(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 0.4964300497)))
                     .background(
                         leftHover ? Color.gray.opacity(0.25) : Color.clear
                     )
                     .cornerRadius(10)
                     .onHover { active in
                         withAnimation {
+                            leftIsHovering = active
                             leftHover = active && count != 1
                         }
                     }
@@ -101,6 +103,7 @@ struct WelcomeScreen: View {
                         if count != 1 {
                             withAnimation {
                                 count -= 1
+                                leftHover = leftIsHovering && count != 1
                             }
                         }
                     }
@@ -120,13 +123,14 @@ struct WelcomeScreen: View {
                 Image(systemName: "chevron.compact.right")
                     .scaleEffect(2)
                     .padding()
-                    .foregroundStyle(count == 4 || disableNext ? .quinary : .tertiary)
+                    .foregroundColor(count == 4 || disableNext ? Color(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 0.1950796772)) : Color(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 0.4964300497)))
                     .background(
                         rightHover ? Color.gray.opacity(0.25) : Color.clear
                     )
                     .cornerRadius(10)
                     .onHover { active in
                         withAnimation {
+                            rightIsHovering = active
                             rightHover = active && count != 4 && !disableNext
                         }
                     }
@@ -134,7 +138,13 @@ struct WelcomeScreen: View {
                         if count != 4 && !disableNext {
                             withAnimation {
                                 count += 1
+                                rightHover = count != 4 && !disableNext
                             }
+                        }
+                    }
+                    .onChange(of: disableNext) { _ in
+                        withAnimation {
+                            rightHover = rightIsHovering && count != 4 && !disableNext
                         }
                     }
 
@@ -169,41 +179,66 @@ struct WelcomeTabView: View {
         self.geometry = geometry
 
         self.normalCount = self.count
+        print("width: \(geometry.size.width-120), height: \(geometry.size.height)")
     }
 
     var body: some View {
         Group {
             if normalCount == 1 {
-                VStack {
+                VStack(alignment: .leading) {
                     HStack {
-                        Image(nsImage: NSImage(named: "XcodeRPC")!)
+                        Image(named: "XcodeRPC")!
                             .resizable()
                             .frame(width: 80, height: 80)
                         VStack(alignment: .leading) {
-                            Text("XcodeRPC")
+                            Text("Welcome to XcodeRPC")
                                 .font(.title)
                                 .bold()
-                            Text("by atomtables")
+                            Text("made by atomtables")
                         }
                     }
-                    HStack {
-                        VStack {
-                            Image(systemName: "person.3.fill")
-                                .font(.largeTitle)
-                                .padding([.top, .horizontal])
-                                .padding(.bottom, 10)
-                            Text("Save and display your activity in Xcode to all of your friends on Discord!")
-                                .frame(width: 180)
-                                .multilineTextAlignment(.center)
+                    VStack(alignment: .leading) {
+                        HStack {
+                            Image(systemName: "person.2.circle.fill")
+                                .font(.system(size: 48))
+                                .padding(5)
+                                .foregroundColor(.green)
+                            VStack(alignment: .leading) {
+                                Text("Discord Rich Presence")
+                                    .font(.title2)
+                                    .bold()
+                                Text("Save and display your activity in Xcode to all of your friends on Discord.")
+                                    .multilineTextAlignment(.leading)
+                            }
+                            .frame(width: 280)
                         }
-                        VStack {
-                            Image(systemName: "photo.on.rectangle.angled")
-                                .font(.largeTitle)
-                                .padding([.top, .horizontal])
-                                .padding(.bottom, 10)
-                            Text("Show off your icons, current open file, and workspace using Rich Presence!")
-                                .frame(width: 180)
-                                .multilineTextAlignment(.center)
+                        HStack {
+                            Image(systemName: "photo.artframe.circle.fill")
+                                .font(.system(size: 48))
+                                .padding(5)
+                                .foregroundColor(.yellow)
+                            VStack(alignment: .leading) {
+                                Text("Custom App Icons")
+                                    .font(.title2)
+                                    .bold()
+                                Text("Show off your app icons, which are uploaded and displayed on your profile.")
+                                    .multilineTextAlignment(.leading)
+                            }
+                            .frame(width: 280)
+                        }
+                        HStack {
+                            Image(systemName: "hammer.circle.fill")
+                                .font(.system(size: 48))
+                                .padding(5)
+                                .foregroundColor(.blue)
+                            VStack(alignment: .leading) {
+                                Text("No Fiddling Required")
+                                    .font(.title2)
+                                    .bold()
+                                Text("XcodeRPC works in the background, taking up minimal system resources, hands-free.")
+                                    .multilineTextAlignment(.leading)
+                            }
+                            .frame(width: 280)
                         }
                     }
                 }
@@ -211,7 +246,9 @@ struct WelcomeTabView: View {
             } else if normalCount == 2 {
                 WelcomeRequestPermissionsView(
                     disableNext: $disableNext,
-                    count: $count
+                    count: $count,
+                    xcodePermissionsReceived: $xcodePermissionsReceived,
+                    eventsPermissionsReceived: $eventsPermissionsReceived
                 )
                 .frame(width: geometry.size.width - 240)
                 .transition(.move(edge: secondTabTransition))
@@ -233,14 +270,14 @@ struct WelcomeTabView: View {
                     }
                     Text("If you like this project, give it a star on GitHub!")
                     Button("Begin...") {
-                        firstLaunch = false
-                        UserDefaults.standard.setValue(true, forKey: "FirstLaunchFinished")
+                        delegate.hideWelcomeWindow()
                     }
                 }
                 .transition(.move(edge: fourthTabTransition))
             }
         }
         .frame(width: geometry.size.width-120, height: geometry.size.height)
+        //        .frame(width: geometry.size.width, height: geometry.size.height)
         .onChange(of: count) { new in
             let old = oldCount
             print(old, new)
@@ -287,10 +324,11 @@ struct WelcomeTabView: View {
 }
 
 struct WelcomeRequestPermissionsView: View {
-    @State var xcodePermissionsReceived: Bool = false
-    @State var eventsPermissionsReceived: Bool = false
     @Binding var disableNext: Bool
     @Binding var count: Int
+
+    @Binding var xcodePermissionsReceived: Bool
+    @Binding var eventsPermissionsReceived: Bool
 
     var body: some View {
         return VStack {
@@ -423,3 +461,4 @@ struct WelcomeRequestPermissionsView: View {
         }
     }
 }
+
