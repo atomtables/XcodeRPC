@@ -6,6 +6,7 @@
 //
 
 import Cocoa
+import SwiftUI
 import SwordRPC
 
 public extension Data {
@@ -71,5 +72,15 @@ extension NSMenuItem {
 
     func appendTo(_ list: inout [NSMenuItem]) {
         list.append(self)
+    }
+}
+
+extension Image {
+    init?(named: String) {
+        if let image = NSImage(named: named) {
+            self.init(nsImage: image)
+        } else {
+            return nil
+        }
     }
 }
