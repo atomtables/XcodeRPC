@@ -25,11 +25,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     @objc func hideWelcomeWindow() { windowController.hideWindow() }
 
     func applicationDidFinishLaunching(_ notification: Notification) {
-        var storyboard: NSStoryboard = NSStoryboard(name: "WelcomeWindow", bundle: nil)
-        myWindowController = storyboard.instantiateController(
-            withIdentifier: "WelcomeWindowController"
-        ) as? WelcomeWindowController
-        myWindowController.displayWindow()
+        let storyboard: NSStoryboard = NSStoryboard(name: "WelcomeWindow", bundle: nil)
+        windowController = storyboard
+            .instantiateController(withIdentifier: "WelcomeWindowController")
+        as? WelcomeWindowController
+        windowController.displayWindow()
 
         for app in NSWorkspace.shared.runningApplications {
             if app.bundleIdentifier == "com.apple.dt.Xcode" {
@@ -155,6 +155,8 @@ class XRPCMenu: NSMenu {
 
     let info = XcodeRPC.Properties.shared
 
+    var setupActive = true
+
     init() {
         super.init(title: "XRPCMenu")
         createStatusBar()
@@ -175,6 +177,7 @@ class XRPCMenu: NSMenu {
 
     public var workspaceMenuItem: NSMenuItem!
     public func updateWorkspace() {
+        guard setupActive else { return }
         workspaceMenuItem.isHidden = info.workspace == nil
         workspaceMenuItem.title = URL(fileURLWithPath: info.workspace ?? "").lastPathComponent
         updateDividerOne()
@@ -223,6 +226,7 @@ class XRPCMenu: NSMenu {
     }
 
     private func createStatusBar() {
+        items = []
         NSMenuItem()
             .setTitle(URL(fileURLWithPath: info.workspace ?? "").lastPathComponent)
             .setVisibility(info.workspace != nil)
@@ -267,6 +271,17 @@ class XRPCMenu: NSMenu {
             .setTitle("Launch on Startup")
             .appendTo(&items)
         NSMenuItem.separator()
+            .appendTo(&items)
+        NSMenuItem()
+            .setTitle("Quit")
+            .setEnabled(true)
+            .setAction(#selector(terminate), target: self)
+            .appendTo(&items)
+    }
+    private func createSetupMenuBar() {
+        items = []
+        NSMenuItem()
+            .setTitle("Please continue setup.")
             .appendTo(&items)
         NSMenuItem()
             .setTitle("Quit")
