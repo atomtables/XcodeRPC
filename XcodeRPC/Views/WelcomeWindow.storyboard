@@ -11,7 +11,7 @@
             <objects>
                 <windowController storyboardIdentifier="WelcomeWindowController" id="w8G-r9-Bbn" userLabel="WelcomeWindowController" customClass="WelcomeWindowController" customModule="XcodeRPC" customModuleProvider="target" sceneMemberID="viewController">
                     <window key="window" title="XcodeRPC Setup" separatorStyle="shadow" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" titlebarAppearsTransparent="YES" toolbarStyle="compact" id="3rj-RP-i6y" userLabel="XcodeRPC Setup">
-                        <windowStyleMask key="styleMask" titled="YES" texturedBackground="YES" fullSizeContentView="YES"/>
+                        <windowStyleMask key="styleMask" titled="YES" fullSizeContentView="YES"/>
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
                         <rect key="contentRect" x="245" y="301" width="860" height="480"/>
                         <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1025"/>
