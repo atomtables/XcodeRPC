@@ -8,6 +8,8 @@ import Foundation
 import SwordRPC
 import Cocoa
 
+var doingSetup: Bool = false
+
 var rpc: SwordRPC!
 var timer: Timer!
 
@@ -29,6 +31,8 @@ private func initialiseRPC() {
 }
 
 func connectRPC() {
+    guard !doingSetup else { return }
+
     initialiseRPC()
     Properties.shared.connecting = true
     let connected = rpc.connect()
@@ -97,7 +101,7 @@ func RPCUpdate() {
         alert.addButton(withTitle: "OK")
         alert.runModal()
         return
-    } catch {} // this line may look redundant but is required for compilation.
+    } catch { return }
 
     /// If all values are still the same, Discord does not need to be updated.
     guard workspace != oldWorkspace ||
