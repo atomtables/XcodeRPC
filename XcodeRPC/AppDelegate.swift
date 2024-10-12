@@ -15,12 +15,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var statusBar: NSStatusBar!
     var statusBarItem: NSStatusItem!
     var menu: XRPCMenu!
-
-    public var items: [NSMenuItem] = []
+    var windowController: WelcomeWindowController!
 
     let info = Properties.shared
-
-    var windowController: WelcomeWindowController!
 
     @objc func hideWelcomeWindow() { windowController.hideWindow() }
 
@@ -29,7 +26,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         windowController = storyboard
             .instantiateController(withIdentifier: "WelcomeWindowController")
         as? WelcomeWindowController
-        windowController.displayWindow()
 
         for app in NSWorkspace.shared.runningApplications {
             if app.bundleIdentifier == "com.apple.dt.Xcode" {
@@ -53,11 +49,22 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         menu = XRPCMenu()
         statusBarItem.menu = menu
 
+        // If first launch has not occured yet...
+        if !UserDefaults.standard.bool(forKey: "FirstLaunchFinished") {
+            doingSetup = true
+            menu.createSetupMenuBar()
+            windowController.displayWindow()
+            statusBarItem.menu = menu
+        }
+
         if UserDefaults.standard.bool(forKey: "StartRPCOnLaunchOfApp") {
             // connectRPC()
         }
 
         addObservers()
+    }
+    func applicationWillTerminate(_ notification: Notification) {
+        disconnectRPC()
     }
 
     func addObservers() {
@@ -98,8 +105,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             }
             }
 
-    func applicationWillTerminate(_ notification: Notification) {
-        disconnectRPC()
+    @objc func finishSetup() {
+        doingSetup = false
+        menu = XRPCMenu()
+        statusBarItem.menu = menu
     }
 }
 
@@ -154,7 +163,6 @@ extension AppDelegate: SwordRPCDelegate {
 class XRPCMenu: NSMenu {
 
     let info = XcodeRPC.Properties.shared
-
     var setupActive = true
 
     init() {
@@ -170,7 +178,6 @@ class XRPCMenu: NSMenu {
         errorMenuItem = items[6]
         disconnectMenuItem = items[7]
     }
-
     required init(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -215,9 +222,7 @@ class XRPCMenu: NSMenu {
             } else {
                 connectMenuItem.isEnabled = true
                 errorMenuItem.isHidden = true
-                if info.connecting {
-                    connectMenuItem.isEnabled = false
-                }
+                if info.connecting { connectMenuItem.isEnabled = false }
             }
         } else {
             connectMenuItem.isHidden = true
@@ -225,7 +230,7 @@ class XRPCMenu: NSMenu {
         }
     }
 
-    private func createStatusBar() {
+    public func createStatusBar() {
         items = []
         NSMenuItem()
             .setTitle(URL(fileURLWithPath: info.workspace ?? "").lastPathComponent)
@@ -278,7 +283,7 @@ class XRPCMenu: NSMenu {
             .setAction(#selector(terminate), target: self)
             .appendTo(&items)
     }
-    private func createSetupMenuBar() {
+    public func createSetupMenuBar() {
         items = []
         NSMenuItem()
             .setTitle("Please continue setup.")

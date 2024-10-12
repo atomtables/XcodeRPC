@@ -16,6 +16,7 @@ class WelcomeWindowController: NSWindowController {
     func hideWindow() {
         self.window?.close()
         self.window = nil
+        delegate.finishSetup()
     }
 
     override func windowDidLoad() {
