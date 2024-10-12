@@ -17,14 +17,6 @@ struct ImageSetNames: Codable {
     let size: String
 }
 
-struct ImgurUploadResponse: Codable {
-    let status: Int
-    let success: Bool
-    let data: ImgurUploadResponseStructure?
-}
-
-struct ImgurUploadResponseStructure: Codable {
-    let id: String
-    let link: String
-    var linkUrl: URL {URL(string: link)!}
+enum XRPCError: Error {
+    case error(String)
 }

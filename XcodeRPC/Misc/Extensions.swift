@@ -34,11 +34,6 @@ extension URL {
     }
 }
 
-
-enum XRPCError: Error {
-    case error(String)
-}
-
 extension NSMenuItem {
     convenience init(title: String, target: NSApplicationDelegate, action: Selector) {
         self.init()

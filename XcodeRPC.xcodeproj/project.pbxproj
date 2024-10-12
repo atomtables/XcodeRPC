@@ -11,9 +11,8 @@
 		332452F62C3061E8001B386F /* SwordRPC in Frameworks */ = {isa = PBXBuildFile; productRef = 332452F52C3061E8001B386F /* SwordRPC */; };
 		332452FC2C306D3B001B386F /* SwordRPC in Frameworks */ = {isa = PBXBuildFile; productRef = 332452FB2C306D3B001B386F /* SwordRPC */; };
 		335F2D632C31A45000439F3E /* InterViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 335F2D622C31A44500439F3E /* InterViewState.swift */; };
-		335F2D652C31A4CF00439F3E /* AppleScripts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 335F2D642C31A4CC00439F3E /* AppleScripts.swift */; };
+		33B004202CBA1590002CE3DC /* Properties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33B0041F2CBA158C002CE3DC /* Properties.swift */; };
 		33C3B1C62C34CD97008A8219 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33C3B1C52C34CD93008A8219 /* AppDelegate.swift */; };
-		33D520A72C3059C30034C89E /* XcodeRPCApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D520A62C3059C30034C89E /* XcodeRPCApp.swift */; };
 		33D520AB2C3059C60034C89E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 33D520AA2C3059C60034C89E /* Assets.xcassets */; };
 		33D520AE2C3059C60034C89E /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 33D520AD2C3059C60034C89E /* Preview Assets.xcassets */; };
 /* End PBXBuildFile section */
@@ -21,11 +20,10 @@
 /* Begin PBXFileReference section */
 		330D52982CB2E3F900E8BDFE /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		335F2D622C31A44500439F3E /* InterViewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterViewState.swift; sourceTree = "<group>"; };
-		335F2D642C31A4CC00439F3E /* AppleScripts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleScripts.swift; sourceTree = "<group>"; };
 		337BC4182C3312CF0098DDB5 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		33B0041F2CBA158C002CE3DC /* Properties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Properties.swift; sourceTree = "<group>"; };
 		33C3B1C52C34CD93008A8219 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		33D520A32C3059C30034C89E /* XcodeRPC.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = XcodeRPC.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		33D520A62C3059C30034C89E /* XcodeRPCApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XcodeRPCApp.swift; sourceTree = "<group>"; };
 		33D520AA2C3059C60034C89E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		33D520AD2C3059C60034C89E /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		33D520AF2C3059C60034C89E /* XcodeRPC.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = XcodeRPC.entitlements; sourceTree = "<group>"; };
@@ -36,7 +34,6 @@
 		334B52382CA61F7C00A8AE0B /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				ContentView.swift,
 				WelcomeScreen.swift,
 				WelcomeWindow.storyboard,
 			);
@@ -47,6 +44,8 @@
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		334B52372CA61F7200A8AE0B /* Views */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (334B52382CA61F7C00A8AE0B /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = Views; sourceTree = "<group>"; };
 		334B52392CA61F8100A8AE0B /* Misc */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Misc; sourceTree = "<group>"; };
+		33B004212CBA15BB002CE3DC /* IMGUR */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = IMGUR; sourceTree = "<group>"; };
+		33B0042C2CBA1B64002CE3DC /* AppleScript */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = AppleScript; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,17 +81,18 @@
 		33D520A52C3059C30034C89E /* XcodeRPC */ = {
 			isa = PBXGroup;
 			children = (
+				330D52982CB2E3F900E8BDFE /* main.swift */,
+				33B0042C2CBA1B64002CE3DC /* AppleScript */,
+				33B004212CBA15BB002CE3DC /* IMGUR */,
+				33B0041F2CBA158C002CE3DC /* Properties.swift */,
 				334B52392CA61F8100A8AE0B /* Misc */,
 				334B52372CA61F7200A8AE0B /* Views */,
-				33D520A62C3059C30034C89E /* XcodeRPCApp.swift */,
 				33C3B1C52C34CD93008A8219 /* AppDelegate.swift */,
-				335F2D642C31A4CC00439F3E /* AppleScripts.swift */,
 				335F2D622C31A44500439F3E /* InterViewState.swift */,
 				33D520B52C305AA20034C89E /* Info.plist */,
 				33D520AA2C3059C60034C89E /* Assets.xcassets */,
 				33D520AF2C3059C60034C89E /* XcodeRPC.entitlements */,
 				33D520AC2C3059C60034C89E /* Preview Content */,
-				330D52982CB2E3F900E8BDFE /* main.swift */,
 			);
 			path = XcodeRPC;
 			sourceTree = "<group>";
@@ -123,6 +123,8 @@
 			);
 			fileSystemSynchronizedGroups = (
 				334B52392CA61F8100A8AE0B /* Misc */,
+				33B004212CBA15BB002CE3DC /* IMGUR */,
+				33B0042C2CBA1B64002CE3DC /* AppleScript */,
 			);
 			name = XcodeRPC;
 			packageProductDependencies = (
@@ -190,9 +192,8 @@
 			files = (
 				330D52992CB2E6C600E8BDFE /* main.swift in Sources */,
 				335F2D632C31A45000439F3E /* InterViewState.swift in Sources */,
-				335F2D652C31A4CF00439F3E /* AppleScripts.swift in Sources */,
 				33C3B1C62C34CD97008A8219 /* AppDelegate.swift in Sources */,
-				33D520A72C3059C30034C89E /* XcodeRPCApp.swift in Sources */,
+				33B004202CBA1590002CE3DC /* Properties.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
