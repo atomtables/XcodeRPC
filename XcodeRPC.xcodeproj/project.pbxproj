@@ -36,6 +36,7 @@
 			membershipExceptions = (
 				WelcomeScreen.swift,
 				WelcomeWindow.storyboard,
+				XRPCMenu.swift,
 			);
 			target = 33D520A22C3059C30034C89E /* XcodeRPC */;
 		};

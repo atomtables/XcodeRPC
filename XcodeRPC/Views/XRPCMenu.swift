@@ -8,13 +8,12 @@
 import Cocoa
 
 class XRPCMenu: NSMenu {
-
     let info = XcodeRPC.Properties.shared
     var setupActive = true
 
     init() {
-        super.init(title: "XRPCMenu")
-        createStatusBar()
+        super.init(title: "XcodeRPC")
+        self.createStatusBar()
 
         workspaceMenuItem = items[0]
         targetMenuItem = items[1]
@@ -25,6 +24,7 @@ class XRPCMenu: NSMenu {
         errorMenuItem = items[6]
         disconnectMenuItem = items[7]
     }
+    
     required init(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
