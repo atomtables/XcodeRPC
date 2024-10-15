@@ -11,7 +11,6 @@ import Foundation
 import SwordRPC
 
 class AppDelegate: NSObject, NSApplicationDelegate {
-
     var statusBar: NSStatusBar!
     var statusBarItem: NSStatusItem!
     var menu: XRPCMenu!
@@ -207,7 +206,8 @@ class XRPCMenu: NSMenu {
     }
     public var statusMenuItem: NSMenuItem!
     public func updateStatus() {
-        statusMenuItem.title = "Status: \(info.connected ? "Connected" : info.connecting ? "Connecting..." : "Disconnected")"
+        statusMenuItem
+            .title = "Status: \(info.connected ? "Connected" : info.connecting ? "Connecting..." : "Disconnected")"
     }
     public var connectMenuItem: NSMenuItem!
     public var errorMenuItem: NSMenuItem!
@@ -232,54 +232,41 @@ class XRPCMenu: NSMenu {
 
     public func createStatusBar() {
         items = []
-        NSMenuItem()
-            .setTitle(URL(fileURLWithPath: info.workspace ?? "").lastPathComponent)
+        NSMenuItem(URL(fileURLWithPath: info.workspace ?? "").lastPathComponent)
             .setVisibility(info.workspace != nil)
             .appendTo(&items)
-        NSMenuItem()
-            .setTitle(info.target ?? "")
+        NSMenuItem(info.target ?? "")
             .setVisibility(info.target != nil)
             .appendTo(&items)
-        NSMenuItem()
-            .setTitle(info.currentFile ?? "")
+        NSMenuItem(info.currentFile ?? "")
             .setVisibility(info.currentFile != nil)
             .appendTo(&items)
         NSMenuItem.separator()
             .setVisibility(info.workspace != nil && info.target != nil && info.currentFile != nil)
             .appendTo(&items)
-        NSMenuItem()
-            .setTitle("Status: \(info.connected ? "Connected" : info.connecting ? "Connecting..." : "Disconnected")")
+        NSMenuItem("Status: \(info.connected ? "Connected" : info.connecting ? "Connecting..." : "Disconnected")")
             .appendTo(&items)
-        NSMenuItem()
-            .setTitle("Connect RPC")
+        NSMenuItem("Connect RPC")
+            .setAction(#selector(connect), target: self)
             .setEnabled(xcodeRunning && discordRunning)
             .setVisibility(!info.connected)
-            .setAction(#selector(connect), target: self)
             .appendTo(&items)
-        NSMenuItem()
-            .setTitle("Run Xcode/Discord to connect...")
+        NSMenuItem("Run Xcode/Discord to connect...")
             .setVisibility(!discordRunning || !xcodeRunning)
             .appendTo(&items)
-        NSMenuItem()
-            .setTitle("Disconnect RPC")
+        NSMenuItem("Disconnect RPC")
             .setVisibility(info.connected)
             .setAction(#selector(disconnect), target: self)
             .appendTo(&items)
-        NSMenuItem()
-            .setTitle("Invalidate Icon Cache")
-            .setEnabled(true)
+        NSMenuItem("Invalidate Icon Cache")
             .setAction(#selector(invalidate), target: self)
             .appendTo(&items)
-        NSMenuItem.separator()
-            .appendTo(&items)
-        NSMenuItem()
-            .setTitle("Launch on Startup")
+        NSMenuItem.separator().appendTo(&items)
+        NSMenuItem("Launch on Startup")
             .appendTo(&items)
         NSMenuItem.separator()
             .appendTo(&items)
-        NSMenuItem()
-            .setTitle("Quit")
-            .setEnabled(true)
+        NSMenuItem("Quit")
             .setAction(#selector(terminate), target: self)
             .appendTo(&items)
     }
@@ -288,6 +275,12 @@ class XRPCMenu: NSMenu {
         NSMenuItem()
             .setTitle("Please continue setup.")
             .appendTo(&items)
+        NSMenuItem()
+            .setTitle("Show Setup Window")
+            .setEnabled(true)
+            .setAction(#selector(openSetupWindow), target: self)
+            .appendTo(&items)
+        NSMenuItem.separator().appendTo(&items)
         NSMenuItem()
             .setTitle("Quit")
             .setEnabled(true)
@@ -321,5 +314,18 @@ class XRPCMenu: NSMenu {
         }
     }
     @objc private func terminate() { NSApp.terminate(nil) }
+    @objc private func openSetupWindow() {
+        if let windowController = XcodeRPC.delegate.windowController {
+            if let window = windowController.window {
+                windowController.displayWindow()
+            }
+        }
 
+        let storyboard: NSStoryboard = NSStoryboard(name: "WelcomeWindow", bundle: nil)
+        XcodeRPC.delegate.windowController = storyboard
+            .instantiateController(withIdentifier: "WelcomeWindowController")
+        as? WelcomeWindowController
+        doingSetup = true
+        XcodeRPC.delegate.windowController.displayWindow()
+    }
 }

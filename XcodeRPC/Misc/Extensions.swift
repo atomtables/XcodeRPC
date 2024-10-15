@@ -44,6 +44,11 @@ extension NSMenuItem {
 }
 
 extension NSMenuItem {
+    convenience init(_ title: String) {
+        self.init()
+        self.title = title
+    }
+
     func setTitle(_ title: String) -> NSMenuItem {
         self.title = title
         return self
@@ -60,6 +65,7 @@ extension NSMenuItem {
     }
 
     func setAction(_ action: Selector, target: AnyObject) -> NSMenuItem {
+        self.isEnabled = true
         self.action = action
         self.target = target
         return self
