@@ -10,7 +10,7 @@
 
 import AppKit
 
-print("running entrypoint of application")
+NSLog("Initialising XcodeRPC (_main)")
 
 let app = NSApplication.shared
 let delegate = AppDelegate()

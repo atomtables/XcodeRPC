@@ -185,7 +185,6 @@ struct WelcomeTabView: View {
         self.geometry = geometry
 
         self.normalCount = self.count
-        print("width: \(geometry.size.width-120), height: \(geometry.size.height)")
     }
 
     var body: some View {
@@ -286,7 +285,6 @@ struct WelcomeTabView: View {
         //        .frame(width: geometry.size.width, height: geometry.size.height)
         .onChange(of: count) { new in
             let old = oldCount
-            print(old, new)
             /// We are going backwards
             if old - new == 1 {
                 switch old {
