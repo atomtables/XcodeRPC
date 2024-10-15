@@ -131,7 +131,7 @@
 				332452F52C3061E8001B386F /* SwordRPC */,
 				332452FB2C306D3B001B386F /* SwordRPC */,
 			);
-			productName = XCodeRPC;
+			productName = XcodeRPC;
 			productReference = 33D520A32C3059C30034C89E /* XcodeRPC.app */;
 			productType = "com.apple.product-type.application";
 		};
@@ -152,7 +152,7 @@
 				};
 			};
 			buildConfigurationList = 33D5209E2C3059C30034C89E /* Build configuration list for PBXProject "XcodeRPC" */;
-			compatibilityVersion = "Xcode 15.0";
+			compatibilityVersion = "Xcode 12.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -340,9 +340,10 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = XCodeRPC/Info.plist;
+				INFOPLIST_FILE = XcodeRPC/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = XcodeRPC;
 				INFOPLIST_KEY_LSUIElement = YES;
+				INFOPLIST_KEY_NSAppleEventsUsageDescription = "We need to get information about your activities in Xcode using AppleEvents.";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -377,6 +378,7 @@
 				INFOPLIST_FILE = XCodeRPC/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = XcodeRPC;
 				INFOPLIST_KEY_LSUIElement = YES;
+				INFOPLIST_KEY_NSAppleEventsUsageDescription = "We need to get information about your activities in Xcode using AppleEvents.";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

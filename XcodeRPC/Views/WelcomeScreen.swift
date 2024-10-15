@@ -9,11 +9,15 @@ import SwiftUI
 
 class WelcomeWindowController: NSWindowController {
     func displayWindow() {
+        app.setActivationPolicy(.regular)
+
         self.window?.makeKeyAndOrderFront(nil)
         self.window?.level = .floating
     }
 
     func hideWindow() {
+        app.setActivationPolicy(.accessory)
+
         self.window?.close()
         self.window = nil
         delegate.finishSetup()
@@ -275,6 +279,7 @@ struct WelcomeTabView: View {
                     }
                     Text("If you like this project, give it a star on GitHub!")
                     Button("Begin...") {
+                        UserDefaults.standard.set(true, forKey: "FirstLaunchFinished")
                         delegate.hideWelcomeWindow()
                     }
                 }
@@ -344,7 +349,6 @@ struct WelcomeRequestPermissionsView: View {
                     disableNext = !(new && xcodePermissionsReceived)
                 }
                 .onChange(of: count) { _ in
-                    print("its changing :skull:")
                     disableNext = !(xcodePermissionsReceived && eventsPermissionsReceived)
                 }
                 .onAppear {
@@ -355,8 +359,9 @@ struct WelcomeRequestPermissionsView: View {
             Divider()
             HStack {
                 Image(systemName: "hammer.circle.fill")
-                    .font(.largeTitle)
-                    .padding([.top, .horizontal])
+                    .font(.system(size: 40))
+                    .padding(.top)
+                    .padding(.horizontal, 5)
                     .padding(.bottom, 10)
                 VStack(alignment: .leading) {
                     Text("Xcode")
@@ -364,10 +369,10 @@ struct WelcomeRequestPermissionsView: View {
                         .font(.title2)
                     Text(
                         "Grant permission for XcodeRPC to " +
-                        "use AppleEvents to see your activity in Xcode. " +
-                        "Xcode may open during this process."
+                        "use AppleScript to see your activity in Xcode. " +
+                        "Xcode may open."
                     )
-                    .frame(width: 300, height: nil, alignment: .leading)
+                    .frame(width: 350, height: nil, alignment: .leading)
                     .multilineTextAlignment(.leading)
                 }
                 Spacer()
@@ -388,12 +393,14 @@ struct WelcomeRequestPermissionsView: View {
                         .shadow(radius: 5)
                 }
                 .disabled(xcodePermissionsReceived)
+                .padding(.leading, 10)
             }
             Divider()
             HStack {
                 Image(systemName: "eye.circle.fill")
-                    .font(.largeTitle)
-                    .padding([.top, .horizontal])
+                    .font(.system(size: 40))
+                    .padding(.top)
+                    .padding(.horizontal, 5)
                     .padding(.bottom, 10)
                 VStack(alignment: .leading) {
                     Text("System Events")
@@ -403,7 +410,7 @@ struct WelcomeRequestPermissionsView: View {
                          "System Events to see when Xcode is running. " +
                          "This will be used to only make sure Xcode is active."
                     )
-                    .frame(width: 300, height: nil, alignment: .leading)
+                    .frame(width: 350, height: nil, alignment: .leading)
                     .multilineTextAlignment(.leading)
                 }
                 Spacer()
@@ -424,14 +431,15 @@ struct WelcomeRequestPermissionsView: View {
                         .shadow(radius: 5)
                 }
                 .disabled(eventsPermissionsReceived)
+                .padding(.leading, 10)
             }
             Divider()
             HStack {
                 VStack {
                     Image(systemName: "folder.circle.fill")
-                        .font(.largeTitle)
+                        .font(.system(size: 40))
                         .padding([.top, .horizontal])
-                        .padding(.bottom, 10)
+                        .padding(.bottom, 5)
                     VStack {
                         Text("Access to Files")
                             .bold()
@@ -446,9 +454,9 @@ struct WelcomeRequestPermissionsView: View {
                 }
                 VStack {
                     Image(systemName: "folder.circle.fill")
-                        .font(.largeTitle)
+                        .font(.system(size: 40))
                         .padding([.top, .horizontal])
-                        .padding(.bottom, 10)
+                        .padding(.bottom, 5)
                     VStack {
                         Text("Access to Discord")
                             .bold()
