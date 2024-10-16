@@ -38,7 +38,7 @@
                 <viewController title="absolutely useless view controller to get xcode to shut up" id="2JE-yK-0UF" sceneMemberID="viewController"/>
                 <customObject id="mTm-53-4ya" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-456" y="-373"/>
+            <point key="canvasLocation" x="-456" y="-232"/>
         </scene>
     </scenes>
 </document>
