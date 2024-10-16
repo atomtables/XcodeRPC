@@ -24,10 +24,21 @@
                             <outlet property="delegate" destination="w8G-r9-Bbn" id="AUD-WA-6qI"/>
                         </connections>
                     </window>
+                    <connections>
+                        <segue destination="2JE-yK-0UF" kind="relationship" relationship="window.shadowedContentViewController" id="WCc-b6-g3N"/>
+                    </connections>
                 </windowController>
                 <customObject id="gqu-Kl-EBo" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-456" y="-751"/>
+        </scene>
+        <!--absolutely useless view controller to get xcode to shut up-->
+        <scene sceneID="6QT-NF-GdC">
+            <objects>
+                <viewController title="absolutely useless view controller to get xcode to shut up" id="2JE-yK-0UF" sceneMemberID="viewController"/>
+                <customObject id="mTm-53-4ya" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-456" y="-373"/>
         </scene>
     </scenes>
 </document>
