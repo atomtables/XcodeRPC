@@ -24,7 +24,7 @@ class XRPCMenu: NSMenu {
         errorMenuItem = items[6]
         disconnectMenuItem = items[7]
     }
-    
+
     required init(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
