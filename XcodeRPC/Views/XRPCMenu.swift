@@ -164,7 +164,7 @@ class XRPCMenu: NSMenu {
     @objc private func terminate() { NSApp.terminate(nil) }
     @objc private func openSetupWindow() {
         if let windowController = XcodeRPC.delegate.windowController {
-            if let window = windowController.window {
+            if windowController.window != nil {
                 windowController.displayWindow()
             }
         }
