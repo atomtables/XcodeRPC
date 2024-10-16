@@ -34,6 +34,7 @@
 		334B52382CA61F7C00A8AE0B /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
+				WelcomeRequestPermissionsView.swift,
 				WelcomeScreen.swift,
 				WelcomeWindow.storyboard,
 				XRPCMenu.swift,
