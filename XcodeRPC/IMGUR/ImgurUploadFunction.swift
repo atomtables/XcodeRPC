@@ -7,7 +7,6 @@
 
 import Foundation
 
-
 func findIcon(workspace: URL) -> URL? {
     var name = workspace.lastPathComponent
     name = String(name.prefix(name.count - 10))
@@ -59,11 +58,11 @@ func uploadIcon(path: URL?, workspace: URL, completion: @escaping (String) -> Vo
         var valid = true
         checkWebsite(urlString: url) { exists in
             if !exists {
-                NSLog("Website does not exist.")
+                NSLog("The current cached AppIcon does not exist.")
                 valid = false
             }
         }
-        NSLog("collected from cache")
+        NSLog("Collected the AppIcon from cache")
         if valid {completion(url)}
         return
     }
@@ -105,8 +104,9 @@ func uploadIcon(path: URL?, workspace: URL, completion: @escaping (String) -> Vo
                         UserDefaults.standard.set(
                             link, forKey: workspace.absoluteString
                         ); UserDefaults.standard.synchronize()
-                        NSLog("uploaded to imgur")
+                        NSLog("Uploaded AppIcon to IMGur")
                         completion(link)
+                        return
                     }
                     completion("default_app_icon")
                 } else {
@@ -117,7 +117,7 @@ func uploadIcon(path: URL?, workspace: URL, completion: @escaping (String) -> Vo
             }
         }.resume()
     } catch {
-        NSLog("There was an error: \(error).")
+        NSLog("There was an error uploading to IMGur: \(error).")
         completion("default_app_icon")
     }
 }
